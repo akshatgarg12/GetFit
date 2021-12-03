@@ -18,7 +18,7 @@ app.use(
 app.set("trust proxy", 1);
 
 app.get('/', (req:Request, res:Response) => {
-    res.send("Hello World")
+    res.send("Fitness Tracker API")
 })
 app.listen(PORT, () => {
   console.log(`server running at port:${PORT}`)

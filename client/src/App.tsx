@@ -1,17 +1,20 @@
+import LandingPage from "./Pages/Landing";
+import ExercisesPage from "./Pages/Exercises";
+import ExerciseInfoPage from "./Pages/ExerciseInfo";
+
+import {
+  Routes as Switch,
+  Route
+} from "react-router-dom";
+
 const App = ():JSX.Element  => {
   return (
     <div className="App">
-      <h1>Fitness Tracker</h1>
-      <p>Feature list : </p>
-      <ol>
-        <li>User profile model</li>
-        <li>Add exercise</li>
-        <li>create workout plan</li>
-        <li>add progress of load in each exercise</li>
-        <li>Create weekly plan using these workouts</li>
-        <li>Progress tracker {"->"} takes photos and measurements, weight height BMI</li>
-        <li>notify to fill in progress every week</li>
-      </ol>
+      <Switch>
+        <Route path = "/exercises" element={<ExercisesPage />} />
+        <Route path = "/exercise/:id" element={<ExerciseInfoPage />} />
+        <Route path = "/" element={<LandingPage />} />
+      </Switch>
     </div>
   );
 }

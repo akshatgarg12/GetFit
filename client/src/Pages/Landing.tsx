@@ -18,7 +18,7 @@ const LandingPage: React.FC<LandingPageProps> = () => {
                 <li>Progress tracker {"->"} takes photos and measurements, weight height BMI</li>
                 <li>notify to fill in progress every week</li>
             </ol>
-            <WorkoutCard />
+            <WorkoutCard id = {1} />
         </div>
     );
 }

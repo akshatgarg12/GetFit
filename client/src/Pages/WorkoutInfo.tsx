@@ -38,6 +38,10 @@ const WorkoutInfoPage: React.FC<WorkoutInfoPageProps> = () => {
     const onClickGoBackHandler = () => {
         navigate('/')
     }
+    const openExerciseInfo = () => {
+        // whatever id is passed through the row clicked
+        navigate('/exercise/' + 1 + "?go_back=current_url");
+    }
     return (
         <Container>
              <Button sx={{marginBottom : "1rem"}} onClick={onClickGoBackHandler} startIcon={<ArrowBackIcon fontSize="large" color="disabled" />}>
@@ -85,7 +89,7 @@ const WorkoutInfoPage: React.FC<WorkoutInfoPageProps> = () => {
               key={row.name}
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
             >
-              <TableCell component="th" scope="row">
+              <TableCell sx={{cursor : "pointer"}} onClick={openExerciseInfo} component="th" scope="row">
                 {row.name}
               </TableCell>
               <TableCell align="right">{row.sets}</TableCell>

@@ -73,34 +73,34 @@ const WorkoutInfoPage: React.FC<WorkoutInfoPageProps> = () => {
                 </Typography>
             </Stack>
             <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 650 }} aria-label="simple table">
-        <TableHead>
-          <TableRow>
-            <TableCell>Exercises</TableCell>
-            <TableCell align="right">Sets</TableCell>
-            <TableCell align="right">Reps</TableCell>
-            <TableCell align="right">Progressive Overload</TableCell>
-            <TableCell align="right">Tips</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {rows.map((row) => (
-            <TableRow
-              key={row.name}
-              sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-            >
-              <TableCell sx={{cursor : "pointer"}} onClick={openExerciseInfo} component="th" scope="row">
-                {row.name}
-              </TableCell>
-              <TableCell align="right">{row.sets}</TableCell>
-              <TableCell align="right">{row.reps}</TableCell>
-              <TableCell align="right">{row.progressive_overload}</TableCell>
-              <TableCell align="right">{row.tips}</TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
+                <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                    <TableHead>
+                    <TableRow>
+                        <TableCell>Exercises</TableCell>
+                        <TableCell align="right">Sets</TableCell>
+                        <TableCell align="right">Reps</TableCell>
+                        <TableCell align="right">Progressive Overload</TableCell>
+                        <TableCell align="right">Tips</TableCell>
+                    </TableRow>
+                    </TableHead>
+                    <TableBody>
+                    {rows.map((row) => (
+                        <TableRow
+                        key={row.name}
+                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                        >
+                        <TableCell sx={{cursor : "pointer"}} onClick={openExerciseInfo} component="th" scope="row">
+                            {row.name}
+                        </TableCell>
+                        <TableCell align="right">{row.sets}</TableCell>
+                        <TableCell align="right">{row.reps}</TableCell>
+                        <TableCell align="right">{row.progressive_overload}</TableCell>
+                        <TableCell align="right">{row.tips}</TableCell>
+                        </TableRow>
+                    ))}
+                    </TableBody>
+                </Table>
+            </TableContainer>
         </Container>
     );
 }

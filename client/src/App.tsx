@@ -7,6 +7,7 @@ import {
   Route
 } from "react-router-dom";
 import WorkoutInfoPage from "./Pages/WorkoutInfo";
+import CreateWorkoutPage from "./Pages/CreateWorkout";
 
 const App = ():JSX.Element  => {
   return (
@@ -15,6 +16,7 @@ const App = ():JSX.Element  => {
         <Route path = "/exercises" element={<ExercisesPage />} />
         <Route path = "/exercise/:id" element={<ExerciseInfoPage />} />
         <Route path = "/workout/:id" element={<WorkoutInfoPage />} />
+        <Route path = "/workout/create" element={<CreateWorkoutPage />} />
         <Route path = "/" element={<LandingPage />} />
       </Switch>
     </div>

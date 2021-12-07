@@ -11,7 +11,7 @@ const ExerciseInfoPage: React.FC<ExerciseInfoPageProps> = () => {
     // show a btn to edit or delete the exercise
     const navigate = useNavigate()
     const onClickGoBackHandler = () => {
-        navigate('/exercises')
+        navigate(-1);
     }
     return (
         <Container maxWidth="sm" sx={{paddingTop:"2rem"}}>

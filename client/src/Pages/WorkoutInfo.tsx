@@ -36,7 +36,7 @@ const WorkoutInfoPage: React.FC<WorkoutInfoPageProps> = () => {
     // this page will contain everything about workout and an edit btn
     const navigate = useNavigate()
     const onClickGoBackHandler = () => {
-        navigate(-2)
+        navigate(-1)
     }
     const openExerciseInfo = () => {
         // whatever id is passed through the row clicked

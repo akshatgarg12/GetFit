@@ -25,13 +25,7 @@ const ExerciseInfoPage: React.FC<ExerciseInfoPageProps> = () => {
                 Muscles Targeted
             </Typography>
             <Typography variant="h6" gutterBottom component="div">
-                Max weight for progressive overload
-            </Typography>
-            <Typography variant="h6" gutterBottom component="div">
-                Recommended rep ranges
-            </Typography>
-            <Typography variant="body1" gutterBottom>
-                Instruments required / Freeweights
+                Max weight for personal record
             </Typography>
             <Typography variant="body1" gutterBottom>
                 Personal tips and tricks to perform
@@ -39,7 +33,6 @@ const ExerciseInfoPage: React.FC<ExerciseInfoPageProps> = () => {
             <Typography color="text.secondary" variant="subtitle1" gutterBottom component="div">
                 Last updated
             </Typography>
-            
         </Container>
     );
 }

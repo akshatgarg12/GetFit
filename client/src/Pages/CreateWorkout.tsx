@@ -1,11 +1,12 @@
 // render a list of exercises and show them in cards
 // after selecting and clicking on next add no of sets and reps ranges
-import { Typography, Box, Button, Stack, TextField, Card, TableContainer, TableRow, Table, TableHead, TableCell, TableBody, Paper } from '@mui/material';
+import { Typography, Box, Button, Stack, TextField, Card, TableContainer, TableRow, Table,FormControl, InputLabel, OutlinedInput, IconButton, InputAdornment, TableHead, TableCell, TableBody, Paper, Chip } from '@mui/material';
 import Container from '@mui/material/Container'
 import Grid from '@mui/material/Grid'
 import { useEffect, useState } from 'react';
 import ExerciseCard from '../components/ExerciseCard';
 import InfoIcon from '@mui/icons-material/Info';
+import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOutlined';
 interface CreateWorkoutPageProps {
     
 }
@@ -18,9 +19,17 @@ interface Workout{
     progressive_overload : string,
     tips ?: string
 }
+interface WorkoutInfo{
+    name : string,
+    body_parts_targeted : Array<string>,
+    notes ?: string
+}
 const createDefaultWorkoutObject = (id : string | number):Workout => ({id, sets : 1, reps : 12, progressive_overload: "yes", tips : ""})
 
 const CreateWorkoutPage: React.FC<CreateWorkoutPageProps> = () => {
+    // name, body parts targeted, notes by creator
+    const [workoutInfo, setWorkoutInfo] = useState<WorkoutInfo>({name : '' , body_parts_targeted:[], notes : ''})
+    const [bodyPart, setBodyPart] = useState('')
     const [selectedExercises, setSelectedExercises] = useState<Array<Workout>>([])
     const [formNumber, setFormNumber] = useState(0)
     // store this in session and delete after created
@@ -42,7 +51,7 @@ const CreateWorkoutPage: React.FC<CreateWorkoutPageProps> = () => {
         }
     }
     const openNextForm = () => {
-        if(formNumber > 1) return;
+        if(formNumber > 2) return;
         setFormNumber(formNumber + 1);
     }
     const openPreviousForm = () => {
@@ -57,12 +66,34 @@ const CreateWorkoutPage: React.FC<CreateWorkoutPageProps> = () => {
         updatedState[idx][name] = value
         setSelectedExercises(updatedState)
     }
+    const onWorkoutInfoChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        const {name, value} = e.target
+        setWorkoutInfo((prev) => ({...prev , [name] : value}))
+    }
+    const onAddBodyPart = () => {
+        // body part add to workout info array
+        if(bodyPart){
+            setWorkoutInfo((prev) => ({...prev, body_parts_targeted:[...workoutInfo.body_parts_targeted, bodyPart]}))
+            setBodyPart('')
+        }
+    }
+    const onDeleteChip = (bp : string) => {
+        // remove bp from body parts array if it exists
+        setWorkoutInfo((prev) => {
+            const updatedBodyPartArr = prev.body_parts_targeted.filter((b:string) => b !== bp)
+            return {
+                ...prev,
+                body_parts_targeted : updatedBodyPartArr
+            }
+        })
+    }
     const submitHandler = () => {
+        console.log("workout info : " , workoutInfo)
         console.log("Complete workout : ", selectedExercises)
     }
     // form number can be 0, 1, 2
     return (
-        <Container sx={{margin:"1rem 0"}}>
+        <Container sx={{margin:"1rem auto"}}>
             {/* phase 0 selecting exercises */}
             {
                 formNumber === 0 &&
@@ -145,7 +176,7 @@ const CreateWorkoutPage: React.FC<CreateWorkoutPageProps> = () => {
                 formNumber === 2 &&
                 // this table can be refactored from workout info
                 <TableContainer component={Paper}>
-                <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                <Table sx={{ minWidth: 650, margin:"auto" }} aria-label="simple table">
                     <TableHead>
                     <TableRow>
                         <TableCell>Exercises</TableCell>
@@ -174,13 +205,76 @@ const CreateWorkoutPage: React.FC<CreateWorkoutPageProps> = () => {
                 </Table>
             </TableContainer>
             }
+            {
+                formNumber === 3 &&
+                // this table can be refactored from workout info
+                <Stack sx={{margin:"auto"}}>
+                    <TextField
+                        required
+                        id="name" type="string" label="name" name="name"
+                        InputLabelProps={{
+                            shrink: true,
+                        }}
+                        margin = "normal"
+                        value={workoutInfo.name}
+                        onChange={onWorkoutInfoChange}
+                    />
+                    <TextField
+                        required
+                        id="notes" type="string" label="notes" name="notes"
+                        InputLabelProps={{
+                            shrink: true,
+                        }}
+                        margin = "normal"
+                        value={workoutInfo.notes}
+                        onChange={onWorkoutInfoChange}
+                    />
+                   
+                    <FormControl 
+                    margin= "normal" sx={{ width: '25ch' }} variant="outlined">
+                        <InputLabel  
+                            shrink={true}
+                            htmlFor="body_parts_targeted">Body Parts Targeted</InputLabel>
+                        <OutlinedInput
+                            id="body_parts_targeted"
+                            type='text'
+                            value={bodyPart}
+                            onChange={(e) => setBodyPart(e.target.value)}
+                            endAdornment={
+                            <InputAdornment position="end">
+                                <IconButton
+                                    aria-label="toggle password visibility"
+                                    onClick={onAddBodyPart}
+                                    edge="end"
+                                >
+                                    <AddCircleOutlineOutlinedIcon />
+                                </IconButton>
+                            </InputAdornment>
+                            }
+                            label="Password"
+                        />
+                    </FormControl>
+                    <Box>
+                    {  
+                            workoutInfo.body_parts_targeted.map((bp) => (
+                                <Chip 
+                                    label={bp}
+                                    variant = "outlined"
+                                    onDelete={() => onDeleteChip(bp)}
+                                />
+                            ))   
+                    }
+                    </Box>
+                </Stack>
+                // <p>Ask for name, notes and body parts</p>
+            }
             <Box sx={{display:"flex", justifyContent:"space-between"}}>
                 <Button disabled = {formNumber === 0} onClick={openPreviousForm}>Back</Button>
                 {
-                    formNumber < 2 && <Button onClick={openNextForm}>Next</Button>
+                    formNumber < 3 && <Button onClick={openNextForm}>Next</Button>
                 }
                 {
-                    formNumber === 2 && <Button onClick={submitHandler}>Submit</Button>
+                    formNumber === 3 && <Button onClick={submitHandler}>Submit</Button>
                 }
 
             </Box>

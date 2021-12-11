@@ -10,7 +10,6 @@ const ProgressPage: React.FC<ProgressPageProps> = () => {
     return (
         <Container>
             btn to add progress
-            contain three pics of each 15 days
             {
                 [1, 2, 3].map((id) => (
                     <ProgressDiv />

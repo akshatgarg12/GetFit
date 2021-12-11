@@ -7,6 +7,7 @@ import { useEffect, useState } from 'react';
 import ExerciseCard from '../components/ExerciseCard';
 import InfoIcon from '@mui/icons-material/Info';
 import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOutlined';
+import Exercises from '../assets/exercises.json'
 interface CreateWorkoutPageProps {
     
 }
@@ -14,6 +15,8 @@ interface CreateWorkoutPageProps {
 
 interface Workout{
     id : string | number,
+    name : string,
+    target : string,
     sets : number,
     reps : number,
     progressive_overload : string,
@@ -24,7 +27,7 @@ interface WorkoutInfo{
     body_parts_targeted : Array<string>,
     notes ?: string
 }
-const createDefaultWorkoutObject = (id : string | number):Workout => ({id, sets : 1, reps : 12, progressive_overload: "yes", tips : ""})
+const createDefaultWorkoutObject = (exercise : any):Workout => ({...exercise, sets : 1, reps : 12, progressive_overload: "yes", tips : ""})
 
 const CreateWorkoutPage: React.FC<CreateWorkoutPageProps> = () => {
     // name, body parts targeted, notes by creator
@@ -39,15 +42,15 @@ const CreateWorkoutPage: React.FC<CreateWorkoutPageProps> = () => {
     }, [selectedExercises, formNumber])
 
 
-    const toggleSelection = (id:string|number) => {
-        const isAlreadySelected = selectedExercises.filter((e) => e.id === id).length > 0
+    const toggleSelection = (exercise : any) => {
+        const isAlreadySelected = selectedExercises.filter((e) => e.id === exercise.id).length > 0
         if(isAlreadySelected){
             setSelectedExercises((prev) => (
-                prev.filter((e) => e.id !== id)
+                prev.filter((e) => e.id !== exercise.id)
             ))
         }  
         else{
-            setSelectedExercises([...selectedExercises, createDefaultWorkoutObject(id) ])
+            setSelectedExercises([...selectedExercises, createDefaultWorkoutObject(exercise) ])
         }
     }
     const openNextForm = () => {
@@ -99,18 +102,18 @@ const CreateWorkoutPage: React.FC<CreateWorkoutPageProps> = () => {
                 formNumber === 0 &&
                 <Grid container rowSpacing={1} columnSpacing={{ xs: 2, sm: 3, md: 4 }}>
                     {
-                        [1,2,3,4,5,6,7,8].map((exercise) => {
-                            const selected = selectedExercises.filter((e) => e.id === exercise).length > 0;
+                        [Exercises[0], Exercises[1], Exercises[2]].map(({id, name, target}) => {
+                            const selected = selectedExercises.filter((e) => e.id === id).length > 0;
                             let idx = -1;
                             if(selected){
                                 // find the index
                                 selectedExercises.forEach((w, i) => {
-                                    if(w.id === exercise) idx = i+1;
+                                    if(w.id === id) idx = i+1;
                                 })
                             }
                             return (
-                            <Grid key={exercise} item xs={6} sm={4} md={3}>
-                               <div style={{padding:"3px", border: selected ? "1px solid red" : "none"}} onClick={() => toggleSelection(exercise)}> {selected && <Typography color="text.secondary">{idx}</Typography>}<ExerciseCard id={exercise} /> </div>
+                            <Grid key={id} item xs={6} sm={4} md={3}>
+                               <div style={{padding:"3px", border: selected ? "1px solid red" : "none"}} onClick={() => toggleSelection({id, name, target})}> {selected && <Typography color="text.secondary">{idx}</Typography>}<ExerciseCard id={id} name={name} target={target} /> </div>
                             </Grid>
                             )
                         }
@@ -129,7 +132,7 @@ const CreateWorkoutPage: React.FC<CreateWorkoutPageProps> = () => {
                                 <Card variant="outlined" sx={{padding:"1rem"}}>
                                     <Stack sx={{margin : "auto"}}>
                                         <Box sx={{display:"flex", justifyContent:"space-between"}}>
-                                            <Typography>Name of Workout</Typography>
+                                            <Typography>{w.name}</Typography>
                                             {/* make this a btn to the url of workout */}
                                              <InfoIcon />
                                         </Box>
@@ -193,7 +196,7 @@ const CreateWorkoutPage: React.FC<CreateWorkoutPageProps> = () => {
                         sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                         >
                         <TableCell sx={{cursor : "pointer"}} component="th" scope="row">
-                            Names
+                            {w.name}
                         </TableCell>
                         <TableCell align="right">{w.sets}</TableCell>
                         <TableCell align="right">{w.reps}</TableCell>

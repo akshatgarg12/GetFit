@@ -40,7 +40,7 @@ const WorkoutInfoPage: React.FC<WorkoutInfoPageProps> = () => {
     }
     const openExerciseInfo = () => {
         // whatever id is passed through the row clicked
-        navigate('/exercise/' + 1 + "?go_back=current_url");
+        navigate('/exercise/' + 1);
     }
     return (
         <Container>

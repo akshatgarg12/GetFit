@@ -2,7 +2,9 @@ import Container from "@mui/material/Container";
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import Exercises from '../assets/exercises.json'
+
 interface ExerciseInfoPageProps {
     
 }
@@ -10,6 +12,18 @@ interface ExerciseInfoPageProps {
 const ExerciseInfoPage: React.FC<ExerciseInfoPageProps> = () => {
     // show a btn to edit or delete the exercise
     const navigate = useNavigate()
+    const {id} = useParams()
+    const ifExerciseExists = Exercises.filter((exercise) => exercise.id === id).length > 0
+    if(!ifExerciseExists){
+        return (
+        <Typography variant="h6" gutterBottom component="div">
+             Exercise does not exists
+        </Typography>
+        )
+    }
+
+    const {name, target, gifUrl, equipment, bodyPart} = Exercises.filter((exercise) => exercise.id === id)[0]
+
     const onClickGoBackHandler = () => {
         navigate(-1);
     }
@@ -19,20 +33,19 @@ const ExerciseInfoPage: React.FC<ExerciseInfoPageProps> = () => {
                 Go Back
             </Button>
             <Typography variant="h3" gutterBottom component="div">
-                Name of Exercise
+                {name}
+            </Typography>
+            <img src={gifUrl} alt="exercise-tutorial"/>
+            <Typography variant="h6" gutterBottom component="div">
+                Muscle targeted : {target}
             </Typography>
             <Typography variant="h6" gutterBottom component="div">
-                Muscles Targeted
+                Equipment required : {equipment}
             </Typography>
             <Typography variant="h6" gutterBottom component="div">
-                Max weight for personal record
+                Body Part targeted : {bodyPart}
             </Typography>
-            <Typography variant="body1" gutterBottom>
-                Personal tips and tricks to perform
-            </Typography>
-            <Typography color="text.secondary" variant="subtitle1" gutterBottom component="div">
-                Last updated
-            </Typography>
+
         </Container>
     );
 }

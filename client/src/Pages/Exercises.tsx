@@ -21,7 +21,7 @@ const ExercisesPage: React.FC<ExercisesPageProps> = () => {
     Exercises.forEach((exercise) => {
         bodyParts.add(exercise.bodyPart)
     })
-    // key : array[exercise]
+    // key(bodyPart) : array[exercise]
     const bodyPartExerciseMap = new Map<string, Array<any>>()
     Array.from((bodyParts)).forEach((bp) => {
         bodyPartExerciseMap.set(bp, [])

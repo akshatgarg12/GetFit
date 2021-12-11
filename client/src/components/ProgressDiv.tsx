@@ -3,7 +3,6 @@ import ImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
 import Typography  from "@mui/material/Typography";
 import Box from "@mui/material/Box";
-import Stack from "@mui/material/Stack";
 import { Link } from 'react-router-dom';
 
 interface ProgressDivProps {
@@ -24,14 +23,7 @@ const itemData = [
     },
 ]
 const ProgressDiv: React.FC<ProgressDivProps> = () => {
-// Bust: Measure around the chest right at the nipple line, but don't pull the tape too tight.
-// Calves: Measure around the largest part of each calf.
-// Chest: Measure just under your bust.
-// Forearm: Measure around the largest part of the arm below the elbow.
-// Hips: Place the tape measure around the biggest part of your hips.
-// Thighs: Measure around the biggest part of each thigh.
-// Upper arm: Measure around the largest part of each arm above the elbow.
-// Waist: Measure a half-inch above your belly button or at the smallest part of your waist.
+
     return (
         <Box>
             <Box sx={{display:"flex", flexDirection:"row", justifyContent:"space-between"}}>

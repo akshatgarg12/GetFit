@@ -18,15 +18,15 @@ interface ProgressInfoPageProps {
 }
 const itemData = [
     {
-      img: 'https://images.unsplash.com/photo-1551963831-b3b1ca40c98e',
+      img: 'https://i.pinimg.com/originals/62/16/08/621608e6e8a3140dd1d84792d1399d05.jpg',
       title: 'Breakfast',
     },
     {
-      img: 'https://images.unsplash.com/photo-1551782450-a2132b4ba21d',
+      img: 'https://i.pinimg.com/originals/62/16/08/621608e6e8a3140dd1d84792d1399d05.jpg',
       title: 'Burger',
     },
     {
-      img: 'https://images.unsplash.com/photo-1522770179533-24471fcdba45',
+      img: 'https://i.pinimg.com/originals/62/16/08/621608e6e8a3140dd1d84792d1399d05.jpg',
       title: 'Camera',
     },
 ]
@@ -46,9 +46,7 @@ const ProgressInfoPage: React.FC<ProgressInfoPageProps> = () => {
             <Typography variant="h3" gutterBottom component="div">
                 Date of upload
             </Typography>
-            <Typography variant="h6" gutterBottom component="div">
-                Photos : 
-            </Typography>
+          
             <ImageList sx={{ width: "100%" }} cols={3} rowHeight="auto">
                 {itemData.map((item) => (
                     <ImageListItem key={item.img}>

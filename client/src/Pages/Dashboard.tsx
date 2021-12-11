@@ -11,6 +11,8 @@ const Dashboard: React.FC<DashboardProps> = () => {
             3. calender
             4. streak
             5. progress tracker
+            6. Replace exercises tab with api from rapid api with exercise database
+            7. instead of exercises add a table to log in max weights 
         </div>
 
     );

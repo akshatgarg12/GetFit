@@ -38,7 +38,7 @@ const WorkoutCard: React.FC<WorkoutCardProps> = ({id}) => {
           <Box>
             {
               ["back" , "biceps"].map((bp) => (
-                <Chip sx={{marginRight:"4px"}}label={bp} variant="outlined" />
+                <Chip key={bp} sx={{marginRight:"4px"}} label={bp} variant="outlined" />
               ))
             }
           </Box>

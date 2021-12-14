@@ -1,7 +1,6 @@
 import LandingPage from "./Pages/Landing";
 import ExercisesPage from "./Pages/Exercises";
 import ExerciseInfoPage from "./Pages/ExerciseInfo";
-
 import {
   Routes as Switch,
   Route
@@ -13,6 +12,7 @@ import Navbar from "./templates/Navbar";
 import Dashboard from "./Pages/Dashboard";
 import ProgressPage from "./Pages/Progress";
 import ProgressInfoPage from "./Pages/ProgressInfo";
+import LoginPage from "./Pages/Login";
 
 const App = ():JSX.Element  => {
   return (
@@ -29,6 +29,7 @@ const App = ():JSX.Element  => {
         <Route path = "/workout/:id" element={<WorkoutInfoPage />} />
         <Route path = "/workout/create" element={<CreateWorkoutPage />} />
         <Route path = "/" element={<LandingPage />} />
+        <Route path = "/login" element={<LoginPage />} />
       </Switch>
     </div>
   );

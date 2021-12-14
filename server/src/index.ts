@@ -2,9 +2,11 @@ import express from 'express'
 import {Request, Response} from 'express'
 import cors from 'cors'
 import { config } from "dotenv"
+import DatabaseConnection from './config/mongodb'
 config()
 const app = express()
 const PORT = process.env.PORT || 8080
+import API from './api/routes'
 
 app.use(express.json())
 app.use(express.urlencoded({extended:true}))
@@ -15,12 +17,24 @@ app.use(
     origin: true,
   })
 );
+
+app.use('/', API)
 app.set("trust proxy", 1);
 
 app.get('/', (req:Request, res:Response) => {
     res.send("Fitness Tracker API")
 })
-app.listen(PORT, () => {
-  console.log(`server running at port:${PORT}`)
-})
 
+
+const serverStart = async () => {
+  try{
+    await DatabaseConnection()
+    app.listen(PORT, () => {
+      console.log(`server started at port:${PORT}`)
+    })
+  }catch(e){
+    console.log(e)
+  }
+}
+
+serverStart()

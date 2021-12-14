@@ -40,7 +40,7 @@ const ExercisesPage: React.FC<ExercisesPageProps> = () => {
             {
                 specificBodyPart && 
                 <Button sx={{marginBottom : "1rem"}} onClick={onClickGoBackHandler} startIcon={<ArrowBackIcon fontSize="large" color="disabled" />}>
-                Go Back
+                 Go Back
                 </Button>
             }
             <Box sx={{padding : "20px"}} mb="1.5">
@@ -48,6 +48,7 @@ const ExercisesPage: React.FC<ExercisesPageProps> = () => {
                 List all exercise created by user category wise
             </Box>
             {
+                // eslint-disable-next-line array-callback-return
                 bodyPartExercisesDS.map(({bodyPart, exercises}) => {
                 if(!specificBodyPart){
                     return (
@@ -90,9 +91,6 @@ const ExercisesPage: React.FC<ExercisesPageProps> = () => {
                             </Grid>
                     </Container>
                     )
-                }
-                else{
-                    return <Typography>No exercise Found</Typography>;
                 }
             })
         }

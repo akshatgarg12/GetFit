@@ -35,7 +35,7 @@ const ExerciseInfoPage: React.FC<ExerciseInfoPageProps> = () => {
             <Typography variant="h3" gutterBottom component="div">
                 {name}
             </Typography>
-            <img src={gifUrl} alt="exercise-tutorial"/>
+            <img src={gifUrl} style={{width:"100%", objectFit:"contain"}} alt="exercise-tutorial"/>
             <Typography variant="h6" gutterBottom component="div">
                 Muscle targeted : {target}
             </Typography>

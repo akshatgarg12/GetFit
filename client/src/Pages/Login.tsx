@@ -1,7 +1,7 @@
 import { Button } from "@mui/material";
 import { FirebaseError } from "firebase/app";
-import { getAuth, signInWithPopup, GoogleAuthProvider, UserCredential } from "firebase/auth";
-import firebaseApp from '../config/firebase'
+import { signInWithPopup, GoogleAuthProvider, UserCredential } from "firebase/auth";
+import {auth} from '../config/firebase';
 
 interface LoginPageProps {
     
@@ -11,7 +11,7 @@ interface LoginPageProps {
 
 
 const LoginPage: React.FC<LoginPageProps> = () => {
-    const auth = getAuth(firebaseApp); 
+
     const provider = new GoogleAuthProvider();
     const onClickLogin = () => {
         signInWithPopup(auth, provider)
@@ -29,9 +29,15 @@ const LoginPage: React.FC<LoginPageProps> = () => {
             console.log(errorCode, errorMessage)
         });
     }
-    
+    const onClickLogout = () => {
+        auth.signOut()
+    }
     return (
-        <Button onClick={onClickLogin}>Login</Button>
+        <div>
+            <Button onClick={onClickLogin}>Login</Button>
+            <Button onClick={onClickLogout}>Logout</Button>
+        </div>
+
     );
 }
  

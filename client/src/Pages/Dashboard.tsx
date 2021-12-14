@@ -1,10 +1,27 @@
+import {onAuthStateChanged} from 'firebase/auth'
+import {auth} from '../config/firebase'
+import {useEffect, useState} from 'react'
+import axios from '../config/axios'
+
 interface DashboardProps {
     
 }
  
 const Dashboard: React.FC<DashboardProps> = () => {
+    const [user, setUser] = useState<any>()
+    const fetch = async () => {
+        const response = await axios.get('/')
+        console.log(response)
+    }
+    useEffect(() => {
+        onAuthStateChanged(auth, (u) => {
+            setUser(u)
+        })
+        fetch()
+    }, [])
     return (
         <div>
+            {JSON.stringify(user)}
             1. box/ alerts for filling details and all
             - info like bmi and stuff
             2. workout regime for this week

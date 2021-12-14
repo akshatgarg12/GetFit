@@ -22,6 +22,7 @@ app.use('/', API)
 app.set("trust proxy", 1);
 
 app.get('/', (req:Request, res:Response) => {
+    // console.log(req.headers.authorization)
     res.send("Fitness Tracker API")
 })
 

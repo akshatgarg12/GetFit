@@ -5,11 +5,11 @@ import checkAuth from '../middleware/auth'
 const router = Router()
 
 // Workout Routes
-router.post('/workouts', createWorkout)
+router.post('/workouts',checkAuth,createWorkout)
 router.get('/workouts', getWorkouts)
 router.get('/workouts/:_id', getWorkoutById)
-router.delete('/workouts/:_id', deleteWorkoutById)
-router.patch('/workouts/:_id', updateWorkoutById)
+router.delete('/workouts/:_id', checkAuth, deleteWorkoutById)
+router.patch('/workouts/:_id',checkAuth,updateWorkoutById)
 
 // @ts-ignore
 router.post('/users', checkAuth, Auth)

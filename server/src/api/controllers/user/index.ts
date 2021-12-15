@@ -76,7 +76,7 @@ const deleteUserById = async (req : Request, res : Response) => {
         const {_id} = req.params
         const user = await User.deleteOne({_id})
         res.status(200).json({status:200, log : "Users deleted"}) 
-    }catch(e){
+    }catch(e:any){
         console.log(e)
         res.status(500).json({status:500, log : `Server error : + ${e.message}`})
     }

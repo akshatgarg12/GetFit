@@ -54,7 +54,8 @@ const WorkoutSchema = new mongoose.Schema({
     },
     created_by : {
         type : ObjectId,
-        ref : "User"
+        ref : "User",
+        required : true
     }
 })
 

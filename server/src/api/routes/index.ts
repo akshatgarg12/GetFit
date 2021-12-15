@@ -1,6 +1,6 @@
 import {Router} from 'express'
 import { getWorkoutById, getWorkouts ,createWorkout,deleteWorkoutById, updateWorkoutById } from '../controllers/workouts'
-import { Auth, getUsers, getUserById } from '../controllers/user'
+import { Auth, getUsers, getUserById, updateUserById, deleteUserById } from '../controllers/user'
 import checkAuth from '../middleware/auth'
 const router = Router()
 
@@ -15,7 +15,7 @@ router.patch('/workouts/:_id', updateWorkoutById)
 router.post('/users', checkAuth, Auth)
 router.get('/users', getUsers)
 router.get('/users/:_id', getUserById)
-// router.patch('/users/:_id', checkAuth, getUserById)
-// router.delete('/users/:_id', checkAuth, getUserById)
-
+router.patch('/users/:_id', checkAuth, updateUserById)
+router.delete('/users/:_id', deleteUserById) // add an admin middleware for this
+ 
 export default router

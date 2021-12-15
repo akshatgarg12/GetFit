@@ -10,7 +10,7 @@ interface DashboardProps {
 const Dashboard: React.FC<DashboardProps> = () => {
     const [user, setUser] = useState<any>()
     const fetch = async () => {
-        const response = await axios.get('/')
+        const response = await axios.get('/me')
         console.log(response)
     }
     useEffect(() => {

@@ -13,12 +13,16 @@ const UserSchema = new mongoose.Schema({
         type : String,
         required : true
     },
+    picture : {
+        type : String,
+        required : true
+    },
     email : {
         type : String,
         required : true,
+        unique : true
         // place a validator here 
     },
-    // password not required if google auth
     provider : {
         type : String,
         required : true

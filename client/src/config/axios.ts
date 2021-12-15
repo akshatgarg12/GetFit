@@ -21,7 +21,7 @@ instance.interceptors.request.use(async function (config) {
         config.headers.Authorization = token;
     } else {
         // @ts-ignore
-        config.headers.Authorization = "TEST";
+        config.headers.Authorization = null;
     }
     return config
 });

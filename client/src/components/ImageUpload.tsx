@@ -3,7 +3,8 @@ import axios from '../config/axios'
 
 interface ImageUploadProps{
     selectedFile : any,
-    setSelectedFile : (file : any) => void
+    setSelectedFile : (file : any) => void,
+    setUploadedImage : (url : string) => void
 }
 
 const toBase64 = (file:any) =>
@@ -15,7 +16,7 @@ const toBase64 = (file:any) =>
   });
 
 // @ts-nocheck
-const ImageUpload : React.FC<ImageUploadProps> = ({selectedFile, setSelectedFile}) => {
+const ImageUpload : React.FC<ImageUploadProps> = ({selectedFile, setSelectedFile,setUploadedImage}) => {
     const ImageUploader = async () => {
       if (!selectedFile) return;
       const file = await toBase64(selectedFile);
@@ -27,7 +28,7 @@ const ImageUpload : React.FC<ImageUploadProps> = ({selectedFile, setSelectedFile
               test: "hey"
           }
       })
-      console.log(imgUploadResponse)
+      setUploadedImage(imgUploadResponse.data.img_url)
     };
 return (
     <Box>

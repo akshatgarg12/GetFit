@@ -12,7 +12,7 @@ const ProgressPage: React.FC<ProgressPageProps> = () => {
             btn to add progress
             {
                 [1, 2, 3].map((id) => (
-                    <ProgressDiv />
+                    <ProgressDiv key={id} />
                 ))
             }
         </Container>

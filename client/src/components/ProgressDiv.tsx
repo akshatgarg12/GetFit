@@ -36,8 +36,8 @@ const ProgressDiv: React.FC<ProgressDivProps> = () => {
                 {itemData.map((item) => (
                     <ImageListItem key={item.img}>
                     <img
-                        src={`${item.img}?w=164&h=164&fit=crop&auto=format`}
-                        srcSet={`${item.img}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
+                        src={`https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg`}
+                        // srcSet={`${item.img}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
                         alt={item.title}
                         loading="lazy"
                     />

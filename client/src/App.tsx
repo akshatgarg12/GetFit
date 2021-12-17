@@ -13,6 +13,7 @@ import Dashboard from "./Pages/Dashboard";
 import ProgressPage from "./Pages/Progress";
 import ProgressInfoPage from "./Pages/ProgressInfo";
 import LoginPage from "./Pages/Login";
+import ImageUpload from "./components/ImageUpload";
 
 const App = ():JSX.Element  => {
   return (
@@ -20,6 +21,7 @@ const App = ():JSX.Element  => {
       <Navbar />
       <Switch>
         <Route path = "/dashboard" element={<Dashboard />} />
+        <Route path = "/image" element={<ImageUpload />} />
         <Route path = "/progress" element={<ProgressPage />} />
         <Route path = "/progress/:id" element={<ProgressInfoPage />} />
         <Route path = "/exercises" element={<ExercisesPage />} />

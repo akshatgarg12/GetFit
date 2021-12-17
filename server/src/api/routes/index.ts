@@ -2,7 +2,11 @@ import {Router} from 'express'
 import { getWorkoutById, getWorkouts ,createWorkout,deleteWorkoutById, updateWorkoutById } from '../controllers/workouts'
 import { Auth, getUsers, getUserById, updateUserById, deleteUserById } from '../controllers/user'
 import checkAuth from '../middleware/auth'
+import { imgUpload } from '../controllers/images'
 const router = Router()
+
+// Image 
+router.post('/image', imgUpload)
 
 // Workout Routes
 router.post('/workouts',checkAuth,createWorkout)

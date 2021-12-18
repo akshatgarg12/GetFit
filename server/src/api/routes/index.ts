@@ -3,6 +3,7 @@ import { getWorkoutById, getWorkouts ,createWorkout,deleteWorkoutById, updateWor
 import { Auth, getUsers, getUserById, updateUserById, deleteUserById } from '../controllers/user'
 import checkAuth from '../middleware/auth'
 import { imgUpload } from '../controllers/images'
+import { createProgress, deleteProgressById, getProgressById, getProgresses, updateProgressById } from '../controllers/progress'
 const router = Router()
 
 // Image 
@@ -15,7 +16,14 @@ router.get('/workouts/:_id', getWorkoutById)
 router.delete('/workouts/:_id', checkAuth, deleteWorkoutById)
 router.patch('/workouts/:_id',checkAuth,updateWorkoutById)
 
-// @ts-ignore
+// Progress Routes
+router.post('/progress',checkAuth,createProgress)
+router.get('/progress', checkAuth, getProgresses)
+router.get('/progress/:_id',checkAuth,getProgressById)
+router.delete('/progress/:_id', checkAuth, deleteProgressById)
+router.patch('/progress/:_id',checkAuth, updateProgressById)
+
+// User Routes
 router.post('/users', checkAuth, Auth)
 router.get('/users', getUsers)
 router.get('/users/:_id', getUserById)

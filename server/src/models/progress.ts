@@ -26,6 +26,12 @@ const MeasurementSchema = new mongoose.Schema({
     waist : {
         type : Number
     },
+    weight : {
+        type: Number,
+    },
+    height : {
+        type : Number
+    },
     units : {
         // probably make this an enum
         type : String,
@@ -46,14 +52,8 @@ const ProgressSchema = new mongoose.Schema({
     },
     measurements : {
         type : MeasurementSchema
-    },
-    weight : {
-        type: Number,
-    },
-    height : {
-        type : Number
-    },
-    createdBy : {
+    }, 
+    created_by : {
         type : ObjectId,
         required : true,
         ref : "User"

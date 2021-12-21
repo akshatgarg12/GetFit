@@ -28,7 +28,7 @@ const App = ():JSX.Element  => {
         <Route path = "/exercises/:bodyPart" element={<ExercisesPage />} />
         <Route path = "/exercise/:id" element={<ExerciseInfoPage />} />
         <Route path = "/workouts" element={<WorkoutsPage />} />
-        <Route path = "/workout/:id" element={<WorkoutInfoPage />} />
+        <Route path = "/workout/:_id" element={<WorkoutInfoPage />} />
         <Route path = "/workout/create" element={<CreateWorkoutPage />} />
         <Route path = "/" element={<LandingPage />} />
         <Route path = "/login" element={<LoginPage />} />

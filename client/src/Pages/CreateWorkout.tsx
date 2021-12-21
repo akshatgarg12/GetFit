@@ -11,6 +11,7 @@ import Select, { SelectChangeEvent } from '@mui/material/Select';
 import Exercises from '../assets/exercises.json'
 import {useNavigate} from 'react-router-dom'
 import { DeleteOutlined } from '@mui/icons-material';
+import axios from '../config/axios'
 
 interface CreateWorkoutPageProps {
     
@@ -67,6 +68,10 @@ const CreateWorkoutPage: React.FC<CreateWorkoutPageProps> = () => {
     const [selectedExercises, setSelectedExercises] = useState<Array<Workout>>(defaultSelectedExercises ? JSON.parse(defaultSelectedExercises) : [])
     const [formNumber, setFormNumber] = useState(defaultFormNumber ? JSON.parse(defaultFormNumber) : 0)
 
+    const [loading, setLoading] = useState(false)
+    const [error, setError] = useState<any>(null)
+    const [success, setSuccess] = useState<any>(null)
+
     const navigate = useNavigate()
     const theme = useTheme();
     const handleChange = (event: SelectChangeEvent<any>) => {
@@ -104,6 +109,7 @@ const CreateWorkoutPage: React.FC<CreateWorkoutPageProps> = () => {
     }
     const openNextForm = () => {
         if(formNumber > 2) return;
+        if(formNumber === 0 && workoutInfo.body_parts_targeted.length === 0) return
         setFormNumber(formNumber + 1);
     }
     const openPreviousForm = () => {
@@ -141,11 +147,40 @@ const CreateWorkoutPage: React.FC<CreateWorkoutPageProps> = () => {
             }
         })
     }
-    const submitHandler = () => {
+    const submitHandler = async () => {
+        try{
+            setLoading(true)
+            const exercises = selectedExercises.map((e) => ({...e, eid : e.id, id:null }))
+            const req = await axios({
+                method : "POST",
+                url : "/workouts",
+                data : {
+                    ...workoutInfo,
+                    exercises
+                }
+            })
+            if(req.status === 200){
+                setError(null)
+                setSuccess(req.data.log)
+                setTimeout(() => {
+                    navigate('/workouts')
+                }, 2000)
+            }else{
+                setSuccess(null)
+                setError(req.data.log)
+            }
+        }catch(e:any){
+            // @ts-ignore
+            setError(e.response.data.log)
+        }finally{
+            setLoading(false)
+            sessionStorage.clear()
+        }
+        
         console.log("workout info : " , workoutInfo)
         console.log("Complete workout : ", selectedExercises)
     }
-    // form number can be 0, 1, 2, 3
+
     return (
         <Container sx={{margin:"1rem auto"}}>
             <Box sx={{display:"flex", justifyContent:"space-between"}}>
@@ -154,12 +189,21 @@ const CreateWorkoutPage: React.FC<CreateWorkoutPageProps> = () => {
                     <Button color="error" onClick={onDiscardForm}>Discard Form</Button>
                 </Box>
                 {
-                    formNumber < 3 && <Button onClick={openNextForm}>Next</Button>
+                    formNumber < 3 && <Button disabled={!workoutInfo.body_parts_targeted.length} onClick={openNextForm}>Next</Button>
                 }
                 {
-                    formNumber === 3 && <Button onClick={submitHandler}>Submit</Button>
+                    formNumber === 3 && <Button disabled = {loading} onClick={submitHandler}>Submit</Button>
                 }
-
+            </Box>
+            <Box>
+                {
+                    error && 
+                    <Typography color={"red"}>{error}</Typography>
+                }
+                {
+                    success && 
+                    <Typography color={"green"}>{success}</Typography>
+                }
             </Box>
             {/* phase 0 selecting exercises */}
             {
@@ -220,7 +264,6 @@ const CreateWorkoutPage: React.FC<CreateWorkoutPageProps> = () => {
                     }
                     </Box>
                 </Stack>
-                // <p>Ask for name, notes and body parts</p>
             }
             {
                 formNumber === 1 &&

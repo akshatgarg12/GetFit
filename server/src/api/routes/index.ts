@@ -11,7 +11,7 @@ router.post('/image', imgUpload)
 
 // Workout Routes
 router.post('/workouts',checkAuth,createWorkout)
-router.get('/workouts', getWorkouts)
+router.get('/workouts', checkAuth, getWorkouts)
 router.get('/workouts/:_id', getWorkoutById)
 router.delete('/workouts/:_id', checkAuth, deleteWorkoutById)
 router.patch('/workouts/:_id',checkAuth,updateWorkoutById)

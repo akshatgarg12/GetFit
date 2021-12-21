@@ -57,6 +57,8 @@ const WorkoutSchema = new mongoose.Schema({
         ref : "User",
         required : true
     }
+}, {
+    timestamps:true
 })
 
 const Workout = mongoose.model("Workout", WorkoutSchema)

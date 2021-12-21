@@ -4,7 +4,14 @@ import {Request, Response} from 'express'
 
 const getWorkouts = async (req:Request, res:Response) => {
     try{
-        const workouts = await Workout.find().populate("created_by", "name picture")
+        // @ts-ignore
+        const user = req.user
+        const created_by = await User.findOne({email : user.email})
+        if(!created_by){
+            res.status(403).json({ status: '403', log: "Unauthorized, create an account first" })
+            return
+        }
+        const workouts = await Workout.find({created_by : created_by._id}, "name notes body_parts_targeted").populate("created_by", "name picture")
         res.status(200).json({status:200, log:"Workouts fetched successfully", workouts })
     }catch(e:any){
         res.status(500).json({ status: '500', log: e.message })

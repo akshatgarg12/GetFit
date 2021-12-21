@@ -10,13 +10,16 @@ import Chip from '@mui/material/Chip';
 import { useNavigate } from 'react-router';
 
 interface WorkoutCardProps {
-    id : string | number
+    _id : string | number,
+    name : string,
+    notes ?: string,
+    body_parts_targeted : Array<string>
 }
  
-const WorkoutCard: React.FC<WorkoutCardProps> = ({id}) => {
+const WorkoutCard: React.FC<WorkoutCardProps> = ({_id,name,notes,body_parts_targeted}) => {
     const navigate = useNavigate()
     const openWorkoutInfoPage = () => {
-        navigate("/workout/" + id)
+        navigate("/workout/" + _id)
     }
     return (
     <Card sx={{ maxWidth: 345, margin:"auto" }}>
@@ -29,15 +32,14 @@ const WorkoutCard: React.FC<WorkoutCardProps> = ({id}) => {
         />
         <CardContent>
           <Typography gutterBottom variant="h5" component="div">
-            Name of Workout
+            {name}
           </Typography>
           <Typography variant="body2" color="text.secondary" sx={{marginBottom:"1rem"}}>
-            Lizards are a widespread group of squamate reptiles, with over 6,000
-            species, ranging across all continents except Antarctica
+            {notes}
           </Typography>
           <Box>
             {
-              ["back" , "biceps"].map((bp) => (
+              body_parts_targeted.map((bp) => (
                 <Chip key={bp} sx={{marginRight:"4px"}} label={bp} variant="outlined" />
               ))
             }

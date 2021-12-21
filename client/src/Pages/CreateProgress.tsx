@@ -1,7 +1,9 @@
 import {Container, ImageList, ImageListItem, Box,Button, TextField, Typography} from '@mui/material'
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useState } from 'react';
 import ImageUpload from '../components/ImageUpload';
 import axios from '../config/axios'
+import {useNavigate} from 'react-router-dom'
 
 interface CreateProgressProps {
     
@@ -61,6 +63,7 @@ const CreateProgress: React.FC<CreateProgressProps> = () => {
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState<any>(null)
     const [success, setSuccess] = useState<any>(null)
+    const navigate = useNavigate()
 
     const onChangeHandler = (e:any) => {
         const {name, value} = e.target
@@ -109,7 +112,10 @@ const CreateProgress: React.FC<CreateProgressProps> = () => {
         }
     }
     return (
-        <Container>
+        <Container sx={{padding:"2rem 0"}}>
+            <Button sx={{marginBottom : "1rem"}} onClick={() => {navigate(-1)}} startIcon={<ArrowBackIcon fontSize="large" color="disabled" />}>
+                Go Back
+            </Button>
              <ImageList sx={{ width: "100%" }} cols={3} rowHeight="auto">
                 {['front image','side image', 'back image'].map((name,item) => (
                     <ImageListItem key={item}>

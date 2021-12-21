@@ -22,7 +22,7 @@ const App = ():JSX.Element  => {
       <Switch>
         <Route path = "/dashboard" element={<Dashboard />} />
         <Route path = "/progress" element={<ProgressPage />} />
-        <Route path = "/progress/:id" element={<ProgressInfoPage />} />
+        <Route path = "/progress/:_id" element={<ProgressInfoPage />} />
         <Route path = "/progress/create" element={<CreateProgress />} />
         <Route path = "/exercises" element={<ExercisesPage />} />
         <Route path = "/exercises/:bodyPart" element={<ExercisesPage />} />

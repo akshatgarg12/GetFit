@@ -1,18 +1,69 @@
+import {useState, useEffect} from 'react'
 import Container  from "@mui/material/Container";
-import * as React from 'react';
+import Button  from "@mui/material/Button";
+import axios from "../config/axios";
 import ProgressDiv from "../components/ProgressDiv";
-
+import { useNavigate } from 'react-router-dom';
 interface ProgressPageProps {
     
 }
  
 const ProgressPage: React.FC<ProgressPageProps> = () => {
+    const [loading, setLoading] = useState(false)
+    const [error, setError] = useState<any>(null)
+    const [progresses, setProgresses] = useState([])
+    const navigate = useNavigate()
+    const fetchUserProgress = async () => {
+        try{
+            setLoading(true)
+            const req = await axios({
+                method : "GET",
+                url : "/progress"
+            })
+            if(req.status === 200){
+                setProgresses(req.data.progresses)
+            }else{
+                setProgresses([])
+                setError(req.data.log)
+            }
+        }catch(e:any){
+            // @ts-ignore
+            setError(e.response.data.log)
+        }finally{
+            setLoading(false)
+        }
+    }
+    useEffect(() => {
+        fetchUserProgress()
+    },[])
+
+    if(loading){
+        return (
+            <Container>
+                Loading...
+            </Container>
+        )
+    }
+    if(error){
+        return (
+            <Container>
+                {error}
+            </Container>
+        )
+    }
     return (
-        <Container>
-            btn to add progress
+        <Container sx={{padding:"2rem 0"}}>
+            <Button variant="outlined" onClick={() => navigate('/progress/create')}>Create new progress</Button>
             {
-                [1, 2, 3].map((id) => (
-                    <ProgressDiv key={id} />
+                progresses.map(({_id, front_img, side_img, back_img, createdAt}) => (
+                    <ProgressDiv 
+                        key={_id}
+                        _id = {_id}
+                        front_img = {front_img}
+                        side_img = {side_img}
+                        back_img = {back_img}
+                        createdAt = {createdAt}
+                    />
                 ))
             }
         </Container>

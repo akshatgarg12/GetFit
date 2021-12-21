@@ -6,39 +6,28 @@ import Box from "@mui/material/Box";
 import { Link } from 'react-router-dom';
 
 interface ProgressDivProps {
-    
+    front_img : string | null,
+    back_img : string | null,
+    side_img : string | null,
+    createdAt : Date,
+    _id : string 
 }
-const itemData = [
-    {
-      img: 'https://images.unsplash.com/photo-1551963831-b3b1ca40c98e',
-      title: 'Breakfast',
-    },
-    {
-      img: 'https://images.unsplash.com/photo-1551782450-a2132b4ba21d',
-      title: 'Burger',
-    },
-    {
-      img: 'https://images.unsplash.com/photo-1522770179533-24471fcdba45',
-      title: 'Camera',
-    },
-]
-const ProgressDiv: React.FC<ProgressDivProps> = () => {
+const ProgressDiv: React.FC<ProgressDivProps> = ({front_img, back_img, side_img, createdAt, _id}) => {
 
     return (
         <Box>
             <Box sx={{display:"flex", flexDirection:"row", justifyContent:"space-between"}}>
-                <Typography sx={{fontSize:"1.5rem", fontWeight:"bold"}}>Date of upload</Typography>
-                <Link style={{margin:"auto 1px", color:"blue", textDecoration:"none"}} to="/progress/1">
+                <Typography sx={{fontSize:"1.5rem", fontWeight:"bold"}}>{new Date(createdAt).toLocaleDateString()}</Typography>
+                <Link style={{margin:"auto 1px", color:"blue", textDecoration:"none"}} to={`/progress/${_id}`}>
                     full details
                 </Link>
             </Box>
             <ImageList sx={{ width: "100%" }} cols={3} rowHeight="auto">
-                {itemData.map((item) => (
-                    <ImageListItem key={item.img}>
+                {[front_img, side_img, back_img].map((item, idx) => (
+                    item && <ImageListItem key={idx}>
                     <img
-                        src={`https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg`}
-                        // srcSet={`${item.img}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
-                        alt={item.title}
+                        src={item ? item : ""}
+                        alt='img not avialable'
                         loading="lazy"
                     />
                     </ImageListItem>

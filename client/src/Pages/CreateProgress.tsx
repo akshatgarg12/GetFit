@@ -1,60 +1,67 @@
 import {Container, ImageList, ImageListItem, Box,Button, TextField, Typography} from '@mui/material'
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import ImageUpload from '../components/ImageUpload';
+import axios from '../config/axios'
 
 interface CreateProgressProps {
     
 }
- 
+
+const measurementParts = [
+    {
+        title : "bust",
+        info : "Measure around the chest right at the nipple line, but don't pull the tape too tight."
+    },
+    {
+        title : "calves",
+        info : "Measure around the largest part of each calf."
+    },
+    {
+        title : "chest",
+        info : "Measure just under your bust."
+    },
+    {
+        title : "forearm",
+        info : "Measure around the largest part of the arm below the elbow."
+    },
+    {
+        title : "hips",
+        info : "Place the tape measure around the biggest part of your hips."
+    },
+    {
+        title : "thighs",
+        info : "Measure around the biggest part of each thigh."
+    },
+    {
+        title : "arms",
+        info : "Measure around the largest part of each arm above the elbow."
+    },
+    {
+        title : "waist",
+        info : "Measure a half-inch above your belly button or at the smallest part of your waist."
+    }
+]
+
 const CreateProgress: React.FC<CreateProgressProps> = () => {
     const [selectedImages , setSelectedImages] = useState<Array<any>>([])
     const [uploadedImages , setUploadedImages] = useState<Array<string>>([])
-    const measurementParts = [
-        {
-            title : "bust",
-            info : "Measure around the chest right at the nipple line, but don't pull the tape too tight."
-        },
-        {
-            title : "calves",
-            info : "Measure around the largest part of each calf."
-        },
-        {
-            title : "chest",
-            info : "Measure just under your bust."
-        },
-        {
-            title : "forearm",
-            info : "Measure around the largest part of the arm below the elbow."
-        },
-        {
-            title : "hips",
-            info : "Place the tape measure around the biggest part of your hips."
-        },
-        {
-            title : "thighs",
-            info : "Measure around the biggest part of each thigh."
-        },
-        {
-            title : "arms",
-            info : "Measure around the largest part of each arm above the elbow."
-        },
-        {
-            title : "waist",
-            info : "Measure a half-inch above your belly button or at the smallest part of your waist."
-        }
-    ]
-    const [measurements, setMeasurements] = useState({
-        weight : 0,
-        height : 0,
-        bust : 0,
-        calves : 0,
-        chest : 0,
-        forearm : 0,
-        hips : 0,
-        thighs : 0, 
-        arms : 0,
-        waist : 0,
+    const [measurements, setMeasurements] = useState<any>({
+        weight : null,
+        height : null,
+        bust : null,
+        calves : null,
+        chest : null,
+        forearm : null,
+        hips : null,
+        thighs : null, 
+        arms : null,
+        waist : null,
     })
+
+    const [loading, setLoading] = useState(false)
+    const [error, setError] = useState<any>(null)
+    const [success, setSuccess] = useState<any>(null)
+
     const onChangeHandler = (e:any) => {
         const {name, value} = e.target
         setMeasurements({
@@ -62,19 +69,53 @@ const CreateProgress: React.FC<CreateProgressProps> = () => {
             [name] : value,
         })
     }
-    const submitHandler = () => {
-        console.log(measurements)
-        console.log(uploadedImages)
+    const submitHandler = async () => {
+        try{
+            setLoading(true)
+            // meausrement data should not be null
+            for(let part in measurements){
+                // @ts-ignore
+                if(measurements[part] === null || measurements[part] === 0){
+                    setError("Please fill all measurements")
+                    return
+                }
+            }
+            const req = await axios({
+                method : "POST",
+                url : "/progress",
+                data : {
+                    measurements,
+                    front_img : uploadedImages[0],
+                    side_img : uploadedImages[1],
+                    back_img : uploadedImages[2],
+                }
+            })
+            const {log} = req.data
+            console.log(req.data)
+            if(req.status === 200){
+                setError(null)
+                setSuccess(log)
+            }else{
+                setSuccess(null)
+                setError(log)
+            }
+        }catch(e){
+            setSuccess(null)
+            // @ts-ignore
+            setError(e.message)
+        }finally{
+            // release states
+            setLoading(false)
+        }
     }
-    useEffect(() => {
-        console.log(selectedImages)
-    }, [selectedImages])
-    
     return (
         <Container>
              <ImageList sx={{ width: "100%" }} cols={3} rowHeight="auto">
-                {[0,1,2].map((item) => (
+                {['front image','side image', 'back image'].map((name,item) => (
                     <ImageListItem key={item}>
+                     <Typography variant="h6">
+                        {name}
+                     </Typography>
                      <img
                         src={selectedImages[item] ? URL.createObjectURL(selectedImages[item]) : `https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg`}
                         alt={"item"}
@@ -112,7 +153,7 @@ const CreateProgress: React.FC<CreateProgressProps> = () => {
                     name="weight"
                     margin = "normal"
                     sx={{marginRight:"10px"}}
-                    value = {measurements.weight}
+                    value = {measurements.weight || 0}
                     onChange={onChangeHandler}
                     type='number'
                 />
@@ -122,7 +163,7 @@ const CreateProgress: React.FC<CreateProgressProps> = () => {
                     name="height"
                     margin = "normal"
                     sx={{marginRight:"10px"}}
-                    value = {measurements.height}
+                    value = {measurements.height || 0}
                     onChange={onChangeHandler}
                     type='number'
                 />
@@ -141,7 +182,7 @@ const CreateProgress: React.FC<CreateProgressProps> = () => {
                                 margin = "normal"
                                 sx={{marginRight:"10px"}}
                                 // @ts-ignore
-                                value = {measurements[part.title]}
+                                value = {measurements[part.title] || 0}
                                 onChange={onChangeHandler}
                                 type='number'
                             />
@@ -149,9 +190,16 @@ const CreateProgress: React.FC<CreateProgressProps> = () => {
                     })
                 }
             </Box>
-            <Button sx={{margin:"10px 0"}} onClick={submitHandler} variant="contained">Submit</Button>
+            {
+                error && 
+                <Typography color={"red"}>{error}</Typography>
+            }
+            {
+                success && 
+                <Typography color={"green"}>{success}</Typography>
+            }
+            <Button disabled={loading} sx={{margin:"10px 0"}} onClick={submitHandler} variant="contained">Submit</Button>
         </Container>
-
     );
 }
  

@@ -82,7 +82,7 @@ const WorkoutInfoPage: React.FC<WorkoutInfoPageProps> = () => {
         exercises.forEach(({sets}:{sets:number}) => totalSets += sets)
         const totalTime = totalSets*3;
         return (
-            <Container sx={{padding:"2rem 0"}}>
+            <Container sx={{padding:"2rem 1rem"}}>
                  <Button sx={{marginBottom : "1rem"}} onClick={onClickGoBackHandler} startIcon={<ArrowBackIcon fontSize="large" color="disabled" />}>
                     Go Back
                  </Button>

@@ -112,7 +112,7 @@ const CreateProgress: React.FC<CreateProgressProps> = () => {
         }
     }
     return (
-        <Container sx={{padding:"2rem 0"}}>
+        <Container sx={{padding:"2rem 1rem"}}>
             <Button sx={{marginBottom : "1rem"}} onClick={() => {navigate(-1)}} startIcon={<ArrowBackIcon fontSize="large" color="disabled" />}>
                 Go Back
             </Button>

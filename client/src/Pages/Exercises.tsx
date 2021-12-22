@@ -36,7 +36,7 @@ const ExercisesPage: React.FC<ExercisesPageProps> = () => {
         navigate(-1);
     }
     return (
-        <Container>
+        <Container sx={{padding:"2rem 1rem"}}>
             {
                 specificBodyPart && 
                 <Button sx={{marginBottom : "1rem"}} onClick={onClickGoBackHandler} startIcon={<ArrowBackIcon fontSize="large" color="disabled" />}>

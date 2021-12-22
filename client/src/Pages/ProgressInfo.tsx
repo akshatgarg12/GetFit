@@ -88,7 +88,7 @@ const ProgressInfoPage: React.FC<ProgressInfoPageProps> = () => {
             BMI = measurements.weight / (measurements.height * measurements.height)
         }
         return (
-            <Container sx={{padding:"2rem 0"}}>
+            <Container sx={{padding:"2rem 1rem"}}>
                 <Button sx={{marginBottom : "1rem"}} onClick={onClickGoBackHandler} startIcon={<ArrowBackIcon fontSize="large" color="disabled" />}>
                     Go Back
                 </Button>

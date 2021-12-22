@@ -53,7 +53,7 @@ const ProgressPage: React.FC<ProgressPageProps> = () => {
         )
     }
     return (
-        <Container sx={{padding:"2rem 0"}}>
+        <Container sx={{padding:"2rem 1rem"}}>
             <Button sx={{marginBottom:"1rem"}}variant="outlined" onClick={() => navigate('/progress/create')}>Create new progress</Button>
             {
                 progresses.map(({_id, front_img, side_img, back_img, createdAt}) => (

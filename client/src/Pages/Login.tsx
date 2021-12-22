@@ -7,12 +7,8 @@ interface LoginPageProps {
     
 }
 
-
-
-
 const LoginPage: React.FC<LoginPageProps> = () => {
-
-    const provider = new GoogleAuthProvider();
+    const provider = new GoogleAuthProvider()
     const onClickLogin = () => {
         signInWithPopup(auth, provider)
         .then((result: UserCredential) => {

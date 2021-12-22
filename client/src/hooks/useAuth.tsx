@@ -7,10 +7,11 @@ interface AuthState{
     isAuthenticated : boolean,
     user : Object | null
 }
-
+const defaultIsAuthenticated = localStorage.getItem('isAuthenticated') 
+const defaultUser = localStorage.getItem('user') 
 const defaultAuthState:AuthState = {
-    isAuthenticated : false,
-    user : null
+    isAuthenticated : defaultIsAuthenticated ? true : false,
+    user : defaultUser ? JSON.parse(defaultUser) : null
 }
 
 const AuthContext = createContext<any>(defaultAuthState)
@@ -24,15 +25,20 @@ const AuthContextProvider = ({children}:any) => {
         const callback = (user:any) => {
             console.log(user)
             if (user) {
+                const {photoURL,displayName,email} = user
                 setAuth({
                     isAuthenticated: true,
-                    user
+                    user : {photoURL,displayName,email}
                 })
+                localStorage.setItem('isAuthenticated', JSON.stringify(true))
+                localStorage.setItem('user', JSON.stringify({photoURL,displayName,email}))
             } else {
                 setAuth({
                     isAuthenticated: false,
                     user: null
-                })
+                })  
+                localStorage.removeItem("isAuthenticated")
+                localStorage.removeItem("user")
             }
             setLoading(false)
         }
@@ -43,11 +49,12 @@ const AuthContextProvider = ({children}:any) => {
              unlisten();
          }
     }, [])
+
     if(loading){
         return <div>Loading...</div>
     }
     return (
-        <AuthContext.Provider value={{...auth}}>
+        <AuthContext.Provider value={{...auth,loading}}>
             {children}
         </AuthContext.Provider>
     )

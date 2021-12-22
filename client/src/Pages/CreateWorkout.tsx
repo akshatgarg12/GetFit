@@ -182,7 +182,7 @@ const CreateWorkoutPage: React.FC<CreateWorkoutPageProps> = () => {
     }
 
     return (
-        <Container sx={{margin:"1rem auto"}}>
+        <Container sx={{padding:"2rem 1rem"}}>
             <Box sx={{display:"flex", justifyContent:"space-between"}}>
                 <Box>
                     <Button disabled = {formNumber === 0} onClick={openPreviousForm}>Back</Button>

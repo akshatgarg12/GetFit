@@ -13,8 +13,8 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import { useNavigate } from 'react-router';
 import {useAuth} from '../hooks/useAuth'
-const pages = ['Workouts', 'Exercises', 'Progress'];
-const settings = ['Profile', 'Dashboard', 'Logout'];
+import {auth} from '../config/firebase';
+
 
 const Navbar = () => {
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
@@ -36,8 +36,14 @@ const Navbar = () => {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
-  const {isAuthenticated} = useAuth()
+  const handleLogout = () => {
+    auth.signOut()
+}
 
+  const {isAuthenticated, user} = useAuth()
+  const pages = ['Workouts', 'Exercises', 'Progress'];
+  const settings = ['Profile', 'Dashboard', 'Logout'];
+  
   return (
     <AppBar color="transparent" position="static">
       <Container maxWidth="xl">
@@ -46,12 +52,13 @@ const Navbar = () => {
             variant="h6"
             noWrap
             component="div"
-            sx={{ mr: 2, display: { xs: 'none', md: 'flex' } }}
+            onClick={() => navigate('/')}
+            sx={{ mr: 2, display: { xs: 'none', md: 'flex', cursor:"pointer" } }}
           >
             Fitness-Tracker
           </Typography>
 
-         { isAuthenticated && <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
+         <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
             <IconButton
               size="large"
               aria-label="account of current user"
@@ -80,24 +87,33 @@ const Navbar = () => {
                 display: { xs: 'block', md: 'none' },
               }}
             >
-              {pages.map((page) => (
-                <MenuItem key={page} onClick={() => handleCloseNavMenu(page)}>
-                  <Typography textAlign="center">{page}</Typography>
-                </MenuItem>
-              ))}
+              {
+                isAuthenticated ?
+                pages.map((page) => (
+                  <MenuItem key={page} onClick={() => handleCloseNavMenu(page)}>
+                    <Typography textAlign="center">{page}</Typography>
+                  </MenuItem>
+                )) :
+                  <MenuItem onClick={() => handleCloseNavMenu("exercises")}>
+                    <Typography textAlign="center">Exercises</Typography>
+                  </MenuItem>
+              }
             </Menu>
-          </Box>}
+          </Box>
           <Typography
             variant="h6"
             noWrap
             component="div"
-            sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}
+            onClick={() => navigate('/')}
+            sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none', cursor:"pointer" } }}
           >
             Fitness-Tracker
           </Typography>
     
-         {isAuthenticated &&  <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-            {pages.map((page) => (
+         <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+            {
+            isAuthenticated ? 
+            pages.map((page) => (
               <Button
                 key={page}
                 onClick={() => handleCloseNavMenu(page)}
@@ -105,13 +121,23 @@ const Navbar = () => {
               >
                 {page}
               </Button>
-            ))}
-          </Box>}
+            )) : 
+            <Button
+                onClick={() => handleCloseNavMenu("exercises")}
+                sx={{ my: 2, color: 'black', display: 'block' }}
+              >
+                Exercises
+              </Button>
+          }
+          </Box>
 
          {isAuthenticated &&  <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                {
+                  user &&
+                  <Avatar alt={user.displayName} src={user.photoURL} />
+                }
               </IconButton>
             </Tooltip>
             <Menu
@@ -130,11 +156,20 @@ const Navbar = () => {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              {settings.map((setting) => (
-                <MenuItem key={setting} onClick={() => handleCloseNavMenu(setting)}>
-                  <Typography textAlign="center">{setting}</Typography>
-                </MenuItem>
-              ))}
+              {settings.map((setting) => {
+                if(setting === "Logout"){
+                  return (
+                    <MenuItem key={setting} onClick={handleLogout}>
+                      <Typography textAlign="center">{setting}</Typography>
+                   </MenuItem>
+                  )
+                }
+                return (
+                  <MenuItem key={setting} onClick={() => handleCloseNavMenu(setting)}>
+                    <Typography textAlign="center">{setting}</Typography>
+                 </MenuItem>
+                )
+              })}
             </Menu>
           </Box>}
         </Toolbar>

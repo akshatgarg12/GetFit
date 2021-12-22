@@ -58,7 +58,7 @@ const WorkoutsPage: React.FC<WorkoutsPageProps> = () => {
         )
     }
     return (   
-        <Container sx={{padding:"2rem 0"}}>
+        <Container sx={{padding:"2rem 1rem"}}>
             <Button variant="outlined" onClick={() => navigate('/workout/create')}>Create new Workout</Button>
             <Grid sx={{padding:"2rem 0"}} container rowSpacing={1} columnSpacing={{ xs: 2, sm: 3, md: 4 }}>
                 {

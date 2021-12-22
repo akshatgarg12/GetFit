@@ -28,7 +28,7 @@ const ExerciseInfoPage: React.FC<ExerciseInfoPageProps> = () => {
         navigate(-1);
     }
     return (
-        <Container maxWidth="sm" sx={{paddingTop:"2rem"}}>
+        <Container maxWidth="sm" sx={{padding:"2rem 1rem"}}>
             <Button sx={{marginBottom : "1rem"}} onClick={onClickGoBackHandler} startIcon={<ArrowBackIcon fontSize="large" color="disabled" />}>
                 Go Back
             </Button>

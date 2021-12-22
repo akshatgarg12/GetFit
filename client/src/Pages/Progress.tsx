@@ -1,5 +1,6 @@
 import {useState, useEffect} from 'react'
 import Container  from "@mui/material/Container";
+import Divider  from "@mui/material/Divider";
 import Button  from "@mui/material/Button";
 import axios from "../config/axios";
 import ProgressDiv from "../components/ProgressDiv";
@@ -53,17 +54,19 @@ const ProgressPage: React.FC<ProgressPageProps> = () => {
     }
     return (
         <Container sx={{padding:"2rem 0"}}>
-            <Button variant="outlined" onClick={() => navigate('/progress/create')}>Create new progress</Button>
+            <Button sx={{marginBottom:"1rem"}}variant="outlined" onClick={() => navigate('/progress/create')}>Create new progress</Button>
             {
                 progresses.map(({_id, front_img, side_img, back_img, createdAt}) => (
-                    <ProgressDiv 
-                        key={_id}
-                        _id = {_id}
-                        front_img = {front_img}
-                        side_img = {side_img}
-                        back_img = {back_img}
-                        createdAt = {createdAt}
-                    />
+                    <div key={_id}>
+                        <ProgressDiv 
+                            _id = {_id}
+                            front_img = {front_img}
+                            side_img = {side_img}
+                            back_img = {back_img}
+                            createdAt = {createdAt}
+                        />
+                        <Divider variant="middle" />
+                    </div>
                 ))
             }
         </Container>

@@ -14,23 +14,28 @@ import ProgressPage from "./Pages/Progress";
 import ProgressInfoPage from "./Pages/ProgressInfo";
 import LoginPage from "./Pages/Login";
 import CreateProgress from "./Pages/CreateProgress";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 const App = ():JSX.Element  => {
   return (
     <div className="App">
       <Navbar />
       <Switch>
-        <Route path = "/dashboard" element={<Dashboard />} />
-        <Route path = "/progress" element={<ProgressPage />} />
-        <Route path = "/progress/:_id" element={<ProgressInfoPage />} />
-        <Route path = "/progress/create" element={<CreateProgress />} />
+        <Route path = "/dashboard" element={<ProtectedRoute element={<Dashboard />} />} />
+
+        <Route path = "/progress" element={<ProtectedRoute element={<ProgressPage />} />} />
+        <Route path = "/progress/:_id" element={<ProtectedRoute element={<ProgressInfoPage />} />} />
+        <Route path = "/progress/create" element={<ProtectedRoute element={<CreateProgress />} />} />
+
         <Route path = "/exercises" element={<ExercisesPage />} />
         <Route path = "/exercises/:bodyPart" element={<ExercisesPage />} />
         <Route path = "/exercise/:id" element={<ExerciseInfoPage />} />
-        <Route path = "/workouts" element={<WorkoutsPage />} />
-        <Route path = "/workout/:_id" element={<WorkoutInfoPage />} />
-        <Route path = "/workout/create" element={<CreateWorkoutPage />} />
-        <Route path = "/" element={<LandingPage />} />
+
+        <Route path = "/workouts" element={<ProtectedRoute element={<WorkoutsPage />} />} />
+        <Route path = "/workout/:_id" element={<ProtectedRoute element={<WorkoutInfoPage />} />} />
+        <Route path = "/workout/create" element={<ProtectedRoute element={<CreateWorkoutPage />} />} />
+
+        <Route path = "/" element={<ProtectedRoute element={<LandingPage />} />} />
         <Route path = "/login" element={<LoginPage />} />
       </Switch>
     </div>

@@ -12,7 +12,7 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import { useNavigate } from 'react-router';
-
+import {useAuth} from '../hooks/useAuth'
 const pages = ['Workouts', 'Exercises', 'Progress'];
 const settings = ['Profile', 'Dashboard', 'Logout'];
 
@@ -36,6 +36,7 @@ const Navbar = () => {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
+  const {isAuthenticated} = useAuth()
 
   return (
     <AppBar color="transparent" position="static">
@@ -50,7 +51,7 @@ const Navbar = () => {
             Fitness-Tracker
           </Typography>
 
-          <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
+         { isAuthenticated && <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
             <IconButton
               size="large"
               aria-label="account of current user"
@@ -85,7 +86,7 @@ const Navbar = () => {
                 </MenuItem>
               ))}
             </Menu>
-          </Box>
+          </Box>}
           <Typography
             variant="h6"
             noWrap
@@ -95,7 +96,7 @@ const Navbar = () => {
             Fitness-Tracker
           </Typography>
     
-          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+         {isAuthenticated &&  <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {pages.map((page) => (
               <Button
                 key={page}
@@ -105,9 +106,9 @@ const Navbar = () => {
                 {page}
               </Button>
             ))}
-          </Box>
+          </Box>}
 
-          <Box sx={{ flexGrow: 0 }}>
+         {isAuthenticated &&  <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                 <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
@@ -135,7 +136,7 @@ const Navbar = () => {
                 </MenuItem>
               ))}
             </Menu>
-          </Box>
+          </Box>}
         </Toolbar>
       </Container>
     </AppBar>

@@ -21,6 +21,9 @@ const App = ():JSX.Element  => {
     <div className="App">
       <Navbar />
       <Switch>
+        {/* Profile page : user activity and basic info */}
+        {/* Dashboard is to be removed for now, convert it to landing page */}
+        {/* Searching and sorting functionality for exercises , progress and workouts */}
         <Route path = "/dashboard" element={<ProtectedRoute element={<Dashboard />} />} />
 
         <Route path = "/progress" element={<ProtectedRoute element={<ProgressPage />} />} />

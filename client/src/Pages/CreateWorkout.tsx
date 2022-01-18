@@ -266,6 +266,7 @@ const CreateWorkoutPage: React.FC<CreateWorkoutPageProps> = () => {
                 </Stack>
             }
             {
+                // change the design to a multi tab container with tabs as body parts, for better navigation
                 formNumber === 1 &&
                         workoutInfo.body_parts_targeted.map((bp:string) => {
                             return (

@@ -9,7 +9,7 @@ const ProtectedRoute = ({element}:ProtectedRouteProps) => {
     const {isAuthenticated, loading} = useAuth()
     if(loading) return <div>Loading....</div>
     return (
-        isAuthenticated ? element : <Navigate to="/login" replace />
+        isAuthenticated ? element : <Navigate to="/" replace />
     );
 }
  

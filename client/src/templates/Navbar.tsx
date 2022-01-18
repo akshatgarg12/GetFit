@@ -42,7 +42,7 @@ const Navbar = () => {
 
   const {isAuthenticated, user} = useAuth()
   const pages = ['Workouts', 'Exercises', 'Progress'];
-  const settings = ['Profile', 'Dashboard', 'Logout'];
+  const settings = ['Profile', 'Logout'];
   
   return (
     <AppBar color="transparent" position="static">

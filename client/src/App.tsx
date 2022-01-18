@@ -38,7 +38,7 @@ const App = ():JSX.Element  => {
         <Route path = "/workout/:_id" element={<ProtectedRoute element={<WorkoutInfoPage />} />} />
         <Route path = "/workout/create" element={<ProtectedRoute element={<CreateWorkoutPage />} />} />
 
-        <Route path = "/" element={<ProtectedRoute element={<LandingPage />} />} />
+        <Route path = "/" element={<LandingPage />} />
         <Route path = "/login" element={<LoginPage />} />
       </Switch>
     </div>

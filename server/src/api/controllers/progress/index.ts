@@ -1,6 +1,7 @@
 import Progress from '../../../models/progress'
 import User from '../../../models/user'
 import {Request, Response} from 'express'
+import { deleteImg } from '../images'
 
 const getProgresses = async (req:Request, res:Response) => {
     try{
@@ -75,6 +76,12 @@ const deleteProgressById = async (req:Request, res:Response) => {
             res.status(403).json({ status: '403', log: "Unauthorized to delete this" })
             return
         }
+        // deleting images
+        const {front_img, side_img, back_img} = progress
+        deleteImg(front_img)
+        deleteImg(side_img)
+        deleteImg(back_img)
+
         await Progress.deleteOne({_id })
         res.status(200).json({status:200, log:"Progress deleted successfully" })
     }catch(e:any){

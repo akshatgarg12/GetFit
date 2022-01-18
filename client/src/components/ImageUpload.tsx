@@ -35,6 +35,7 @@ const ImageUpload : React.FC<ImageUploadProps> = ({selectedFile, setSelectedFile
                     test: "hey"
                 }
             })
+            console.log(imgUploadResponse)
             setUploadedImage(imgUploadResponse.data.img_url)
             setError(null)
             setSuccess(true)

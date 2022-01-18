@@ -3,7 +3,6 @@ import GoogleIcon from '@mui/icons-material/Google';
 import { FirebaseError } from "firebase/app";
 import { signInWithPopup, GoogleAuthProvider, UserCredential } from "firebase/auth";
 import {auth} from '../config/firebase';
-import { useEffect, useState } from "react";
 import {useAuth} from '../hooks/useAuth'
 
 interface LoginPageProps {

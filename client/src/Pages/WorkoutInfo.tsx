@@ -15,6 +15,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import {useState, useEffect} from 'react'
 import axios from '../config/axios'
+import { useAuth } from "../hooks/useAuth";
 
 interface WorkoutInfoPageProps {
     
@@ -32,6 +33,22 @@ const WorkoutInfoPage: React.FC<WorkoutInfoPageProps> = () => {
     const onClickGoBackHandler = () => {
         navigate(-1)
     }
+    const {isAuthenticated, user} = useAuth()
+    const deleteWorkout = async () => {
+        const confirm = window.confirm("are you sure you want to delete this workout?")
+        if(!confirm) return
+        const req = await axios({
+            method : "DELETE",
+            url : `/workouts/${_id}`
+        })
+        if(req.status === 200){
+            console.log("deleted workout")
+            navigate(-1)
+        }else{
+            setError(req.data.log)
+        }
+    }
+
     useEffect(() => {
         const fetchWorkout = async () => {
             try{
@@ -142,6 +159,12 @@ const WorkoutInfoPage: React.FC<WorkoutInfoPageProps> = () => {
                         </TableBody>
                     </Table>
                 </TableContainer>
+                {
+                    isAuthenticated && workout.created_by.email === user.email && 
+                    <Button onClick={deleteWorkout} color="error" sx={{marginTop:"3rem"}}>
+                        Delete Workout
+                    </Button>
+                }
             </Container>
         );
     

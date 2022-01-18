@@ -25,7 +25,7 @@ const getWorkoutById = async (req:Request, res:Response) => {
             res.status(400).json({ status: '400', log: "workout id required" })
             return
         }
-        const workout = await Workout.findOne({_id }).populate("created_by", "name picture")
+        const workout = await Workout.findOne({_id }).populate("created_by", "name picture email")
         res.status(200).json({status:200, log:"Workout fetched successfully", workout })
     }catch(e:any){
         res.status(500).json({ status: '500', log: e.message })

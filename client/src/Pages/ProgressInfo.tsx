@@ -32,7 +32,20 @@ const ProgressInfoPage: React.FC<ProgressInfoPageProps> = () => {
         navigate(-1);
     }
     const {_id} = useParams()
-    
+    const deleteProgress = async () => {
+        const confirm = window.confirm("are you sure you want to delete this progress?")
+        if(!confirm) return
+        const req = await axios({
+            method : "DELETE",
+            url : `/progress/${_id}`
+        })
+        if(req.status === 200){
+            console.log("deleted progress")
+            navigate(-1)
+        }else{
+            setError(req.data.log)
+        }
+    }
     useEffect(() => {
         const fetchProgress = async () => {
             try{
@@ -144,6 +157,9 @@ const ProgressInfoPage: React.FC<ProgressInfoPageProps> = () => {
                         </TableBody>
                     </Table>
                 </TableContainer>
+                <Button onClick={deleteProgress} color="error" sx={{marginTop:"3rem"}}>
+                    Delete Progress
+                </Button>
             </Container>
         );
     }

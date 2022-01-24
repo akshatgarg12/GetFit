@@ -41,10 +41,10 @@ const createWorkout = async (req:Request, res:Response) => {
         if(!created_by){
             res.status(403).json({ status: '403', log: "Unauthorized, create an account first" })
             return
-        } 
-        // get created_by from auth middleware 
+        }
+        // get created_by from auth middleware
         const workout = new Workout({
-            name, 
+            name,
             body_parts_targeted,
             notes,
             exercises,

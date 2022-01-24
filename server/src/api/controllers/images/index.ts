@@ -20,11 +20,11 @@ const deleteImg = async (url : string) => {
   const id = arr[1].split('.')[0]
   const public_url = arr[0] + "/" + id
   await cloudinary.v2.uploader.destroy(public_url , function(error,result) {
-    console.log(result, error) 
+    console.log(result, error)
   });
  }
- 
+
 export {
-    imgUpload, 
+    imgUpload,
     deleteImg
 }

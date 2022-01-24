@@ -1,6 +1,5 @@
 import admin from "firebase-admin";
-
-var serviceAccount = require("./serviceAccountKey.json");
+const serviceAccount = JSON.parse(process.env.FIREBASE_CREDS || "")
 
 const firebase = admin.initializeApp({
   credential: admin.credential.cert(serviceAccount)

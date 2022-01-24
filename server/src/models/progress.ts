@@ -52,7 +52,7 @@ const ProgressSchema = new mongoose.Schema({
     },
     measurements : {
         type : MeasurementSchema
-    }, 
+    },
     created_by : {
         type : ObjectId,
         required : true,

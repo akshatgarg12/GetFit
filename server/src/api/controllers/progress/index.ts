@@ -42,8 +42,8 @@ const createProgress = async (req:Request, res:Response) => {
         if(!created_by){
             res.status(403).json({ status: '403', log: "Unauthorized, create an account first" })
             return
-        } 
-        // get created_by from auth middleware 
+        }
+        // get created_by from auth middleware
         const progress = new Progress({
             front_img, side_img, back_img, measurements,
             created_by : created_by._id
@@ -107,7 +107,7 @@ const updateProgressById = async (req:Request, res:Response) => {
         res.status(403).json({ status: '403', log: "Unauthorized to update this" })
         return
     }
-  
+
     await Progress.updateOne({_id}, args)
     const updatedProgress = await Progress.findOne({_id})
     res.status(200).json({status:200, log:"Progress updated successfully", progress: updatedProgress})

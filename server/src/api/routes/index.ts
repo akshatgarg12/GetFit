@@ -6,7 +6,7 @@ import { imgUpload } from '../controllers/images'
 import { createProgress, deleteProgressById, getProgressById, getProgresses, updateProgressById } from '../controllers/progress'
 const router = Router()
 
-// Image 
+// Image
 router.post('/image', imgUpload)
 
 // Workout Routes
@@ -29,5 +29,5 @@ router.get('/users', getUsers)
 router.get('/users/:_id', getUserById)
 router.patch('/users/:_id', checkAuth, updateUserById)
 router.delete('/users/:_id', deleteUserById) // add an admin middleware for this
- 
+
 export default router

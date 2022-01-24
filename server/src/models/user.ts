@@ -21,7 +21,7 @@ const UserSchema = new mongoose.Schema({
         type : String,
         required : true,
         unique : true
-        // place a validator here 
+        // place a validator here
     },
     provider : {
         type : String,

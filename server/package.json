@@ -11,11 +11,11 @@
     "clean": "rimraf dist/*",
     "copy-assets": "ts-node src/tools/copyAssets",
     "lint": "tslint -c tslint.json -p tsconfig.json --fix",
-    "install-tsc" : "npm install typescript -g",
+    "install" : "npm install",
     "tsc": "tsc",
     "build": "npm-run-all clean tsc",
     "dev:start": "npm-run-all build start",
-    "prepublish": "npm install",
+    "prepublish": "npm install -g npm-run-all typescript",
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node dist/index.js",
     "dev": "nodemon --exec ts-node src/index.ts"

@@ -1,9 +1,9 @@
 import { Stack, Button, Typography, Avatar } from "@mui/material";
 import GoogleIcon from '@mui/icons-material/Google';
-import { FirebaseError } from "firebase/app";
 import { signInWithPopup, GoogleAuthProvider, UserCredential } from "firebase/auth";
 import {auth} from '../config/firebase';
 import {useAuth} from '../hooks/useAuth'
+import axios from '../config/axios'
 
 interface LoginPageProps {
     
@@ -11,21 +11,22 @@ interface LoginPageProps {
 
 const LoginPage: React.FC<LoginPageProps> = () => {
     const provider = new GoogleAuthProvider()
-    const onClickLogin = () => {
-        signInWithPopup(auth, provider)
-        .then((result: UserCredential) => {
-            // This gives you a Google Access Token. You can use it to access the Google API.
+    const onClickLogin = async () => {
+        try{
+            const result:UserCredential = await signInWithPopup(auth, provider)
             const credential = GoogleAuthProvider.credentialFromResult(result);
             const token = credential && credential.accessToken;
             // The signed-in user info.
             const user = result.user;
             console.log(token, user)
-        }).catch((error: FirebaseError) => {
-            // Handle Errors here.
-            const errorCode = error.code;
-            const errorMessage = error.message;
-            console.log(errorCode, errorMessage)
-        });
+            await axios({
+                url:"/users",
+                method:"POST"
+            })
+        }
+        catch(e){
+            console.log(e)
+        }
     }
 
    

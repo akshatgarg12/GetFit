@@ -14,6 +14,7 @@ import MenuItem from '@mui/material/MenuItem';
 import { useNavigate } from 'react-router';
 import {useAuth} from '../hooks/useAuth'
 import {auth} from '../config/firebase';
+import {title} from '../constants'
 
 
 const Navbar = () => {
@@ -55,7 +56,7 @@ const Navbar = () => {
             onClick={() => navigate('/')}
             sx={{ mr: 2, display: { xs: 'none', md: 'flex', cursor:"pointer" } }}
           >
-            Fitness-Tracker
+            {title}
           </Typography>
 
          <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
@@ -107,7 +108,7 @@ const Navbar = () => {
             onClick={() => navigate('/')}
             sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none', cursor:"pointer" } }}
           >
-            Fitness-Tracker
+            {title}
           </Typography>
     
          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>

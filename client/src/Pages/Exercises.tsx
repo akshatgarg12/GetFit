@@ -49,10 +49,10 @@ const ExercisesPage: React.FC<ExercisesPageProps> = () => {
             </Box>
             {
                 // eslint-disable-next-line array-callback-return
-                bodyPartExercisesDS.map(({bodyPart, exercises}) => {
+                bodyPartExercisesDS.map(({bodyPart, exercises}, id) => {
                 if(!specificBodyPart){
                     return (
-                        <Container>
+                        <Container key={id}>
                             <Box sx={{display:"flex", flexDirection:"row", justifyContent:"space-between"}}>
                                 <Typography variant="h4" sx={{margin:"1rem 0"}}>{bodyPart}</Typography>
                                 <Link style={{margin:"auto 0"}} to={"/exercises/" + bodyPart} > View all</Link>

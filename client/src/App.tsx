@@ -9,13 +9,13 @@ import WorkoutInfoPage from "./Pages/WorkoutInfo";
 import CreateWorkoutPage from "./Pages/CreateWorkout";
 import WorkoutsPage from "./Pages/Workouts";
 import Navbar from "./templates/Navbar";
-import Dashboard from "./Pages/Dashboard";
 import ProgressPage from "./Pages/Progress";
 import ProgressInfoPage from "./Pages/ProgressInfo";
 import LoginPage from "./Pages/Login";
 import CreateProgress from "./Pages/CreateProgress";
 import ProtectedRoute from "./components/ProtectedRoute";
-
+import Profile from "./Pages/Profile";
+import 'react-calendar/dist/Calendar.css';
 const App = ():JSX.Element  => {
   return (
     <div className="App">
@@ -24,7 +24,8 @@ const App = ():JSX.Element  => {
         {/* Profile page : user activity and basic info */}
         {/* Dashboard is to be removed for now, convert it to landing page */}
         {/* Searching and sorting functionality for exercises , progress and workouts */}
-        <Route path = "/dashboard" element={<ProtectedRoute element={<Dashboard />} />} />
+        {/* fitish, fitify, fitable, getfit, fitbook */}
+        <Route path = "/profile" element={<ProtectedRoute element={<ProtectedRoute element={<Profile />} />} />} />
 
         <Route path = "/progress" element={<ProtectedRoute element={<ProgressPage />} />} />
         <Route path = "/progress/:_id" element={<ProtectedRoute element={<ProgressInfoPage />} />} />

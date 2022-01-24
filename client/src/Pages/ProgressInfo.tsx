@@ -105,7 +105,7 @@ const ProgressInfoPage: React.FC<ProgressInfoPageProps> = () => {
                 <Button sx={{marginBottom : "1rem"}} onClick={onClickGoBackHandler} startIcon={<ArrowBackIcon fontSize="large" color="disabled" />}>
                     Go Back
                 </Button>
-                <Typography variant="h3" gutterBottom component="div">
+                <Typography variant="h4" gutterBottom component="div">
                     {new Date(createdAt).toLocaleDateString()}
                 </Typography>
               
@@ -132,8 +132,8 @@ const ProgressInfoPage: React.FC<ProgressInfoPageProps> = () => {
                 <Typography variant="h6" gutterBottom component="div">
                     Measurements : 
                 </Typography>
-                <TableContainer component={Paper}>
-                    <Table sx={{ minWidth: 250 }} aria-label="simple table">
+                <TableContainer sx={{ minWidth: 250}} component={Paper}>
+                    <Table aria-label="simple table">
                         <TableHead>
                         <TableRow>
                             <TableCell>Name</TableCell>

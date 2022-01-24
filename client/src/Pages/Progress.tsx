@@ -56,7 +56,7 @@ const ProgressPage: React.FC<ProgressPageProps> = () => {
         <Container sx={{padding:"2rem 1rem"}}>
             <Button sx={{marginBottom:"1rem"}}variant="outlined" onClick={() => navigate('/progress/create')}>Create new progress</Button>
             {
-                progresses.map(({_id, front_img, side_img, back_img, createdAt}) => (
+                [...progresses].reverse().map(({_id, front_img, side_img, back_img, createdAt}) => (
                     <div key={_id}>
                         <ProgressDiv 
                             _id = {_id}

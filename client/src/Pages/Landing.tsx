@@ -4,6 +4,8 @@ import FitnessCenterSharpIcon from '@mui/icons-material/FitnessCenterSharp';
 import SportsBasketballSharpIcon from '@mui/icons-material/SportsBasketballSharp';
 import AutoGraphSharpIcon from '@mui/icons-material/AutoGraphSharp';
 import { useNavigate } from "react-router-dom";
+import {title, tagline} from "../constants"
+
 interface LandingPageProps {
     
 }
@@ -17,10 +19,10 @@ const LandingPage: React.FC<LandingPageProps> = () => {
                 <img style={{width:"100%", height:"75vh", objectFit:"cover"}} src="https://i.pinimg.com/originals/71/60/c9/7160c9f131fe0685678a5749e264e054.png" alt="hero-img"/>
                 <Box className="centered">
                     <Typography variant="h1" component="div" gutterBottom mt={2} className="landing-page-heading">
-                        Fitness Tracker
+                        {title}
                     </Typography>
                     <Typography variant="h6" component="div" gutterBottom>
-                        One stop solution for your growth tracking
+                        {tagline}
                     </Typography>
                 </Box>
             </Box>

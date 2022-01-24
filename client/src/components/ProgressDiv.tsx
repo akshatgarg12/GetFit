@@ -13,7 +13,6 @@ interface ProgressDivProps {
     _id : string 
 }
 const ProgressDiv: React.FC<ProgressDivProps> = ({front_img, back_img, side_img, createdAt, _id}) => {
-
     return (
         <Box>
             <Box sx={{display:"flex", flexDirection:"row", justifyContent:"space-between"}}>

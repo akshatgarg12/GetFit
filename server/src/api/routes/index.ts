@@ -4,6 +4,7 @@ import { Auth, getUsers, getUserById, updateUserById, deleteUserById } from '../
 import checkAuth from '../middleware/auth'
 import { imgUpload } from '../controllers/images'
 import { createProgress, deleteProgressById, getProgressById, getProgresses, updateProgressById } from '../controllers/progress'
+import { mark, getUserActivity, removeActivity } from '../controllers/activity'
 const router = Router()
 
 // Image
@@ -29,5 +30,10 @@ router.get('/users', getUsers)
 router.get('/users/:_id', getUserById)
 router.patch('/users/:_id', checkAuth, updateUserById)
 router.delete('/users/:_id', deleteUserById) // add an admin middleware for this
+
+// Activity Routes
+router.get("/activity", checkAuth, getUserActivity)
+router.post("/activity", checkAuth, mark)
+router.delete("/activity", checkAuth, removeActivity)
 
 export default router

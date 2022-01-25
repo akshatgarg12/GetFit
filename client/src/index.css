@@ -42,8 +42,12 @@ code {
 }
 
 .present{
-  /* background-color: wheat !important; */
+  background-color: greenyellow !important;
 }
+.absent{
+  background-color: lightcoral !important;
+}
+
 .calender{
   margin:auto;
 }

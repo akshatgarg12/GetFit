@@ -1,13 +1,20 @@
-import {Container, ImageList, ImageListItem, Box,Button, TextField, Typography} from '@mui/material'
+import {Container, ImageList, ImageListItem, Box,Button, TextField, Typography, Stack} from '@mui/material'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useState } from 'react';
 import ImageUpload from '../components/ImageUpload';
 import axios from '../config/axios'
 import {useNavigate} from 'react-router-dom'
+import WebcamCapture from '../components/Webcam';
 
 interface CreateProgressProps {
     
 }
+
+const guideImages = [
+    '/images/front.jpeg',
+    '/images/side.jpeg',
+    '/images/back.jpeg',
+]
 
 const measurementParts = [
     {
@@ -47,6 +54,15 @@ const measurementParts = [
 const CreateProgress: React.FC<CreateProgressProps> = () => {
     const [selectedImages , setSelectedImages] = useState<Array<any>>([])
     const [uploadedImages , setUploadedImages] = useState<Array<string>>([])
+    const [modeOfUploadingImage , setModeOfUploadingImage] = useState<Array<"upload" | "camera">>([])
+    const changeModeOfUpload = (item : any, mode : "upload" | "camera") => {
+        setModeOfUploadingImage((prev) => {
+            const clone = [...prev]
+            clone[item] = mode
+            return clone
+        })
+    }
+
     const [measurements, setMeasurements] = useState<any>({
         weight : null,
         height : null,
@@ -122,27 +138,47 @@ const CreateProgress: React.FC<CreateProgressProps> = () => {
                      <Typography variant="h6">
                         {name}
                      </Typography>
-                     <img
-                        src={selectedImages[item] ? URL.createObjectURL(selectedImages[item]) : `https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg`}
-                        alt={"item"}
-                        loading="lazy"
-                        style={{width:"100%", height:"400px", objectFit:"contain"}}
-                     />
-                    <ImageUpload 
-                        selectedFile={selectedImages[item]}
-                        setSelectedFile={(file:any) => {
-                            setSelectedImages((prev) => {
-                            const files = [...prev]
-                            files[item] = file
-                            return files
-                            })
-                        }} 
-                        setUploadedImage = {(url : string) => {
-                            const updateUploadedImages = [...uploadedImages]
-                            updateUploadedImages[item] = url
-                            setUploadedImages(updateUploadedImages)
-                        }}
-                    />
+                     <Stack direction="row" spacing={2}>
+                        <Button onClick={()=>changeModeOfUpload(item, "camera")}>Camera</Button>
+                        <Button onClick={()=>changeModeOfUpload(item, "upload")}>Device</Button>
+                    </Stack>
+                     {
+                         
+                             modeOfUploadingImage[item] === "camera" ? 
+                            
+                                <WebcamCapture 
+                                    setUploadedImage = {(url : string) => {
+                                        const updateUploadedImages = [...uploadedImages]
+                                        updateUploadedImages[item] = url
+                                        setUploadedImages(updateUploadedImages)
+                                    }}
+                                /> :
+                                <div>
+                                    <img
+                                        src={selectedImages[item] ? URL.createObjectURL(selectedImages[item]) : guideImages[item]}
+                                        alt={"item"}
+                                        loading="lazy"
+                                        style={{width:"100%", height:"400px", objectFit:"contain"}}
+                                    />
+                                    <ImageUpload 
+                                        selectedFile={selectedImages[item]}
+                                        setSelectedFile={(file:any) => {
+                                            setSelectedImages((prev) => {
+                                            const files = [...prev]
+                                            files[item] = file
+                                            return files
+                                            })
+                                        }} 
+                                        setUploadedImage = {(url : string) => {
+                                            const updateUploadedImages = [...uploadedImages]
+                                            updateUploadedImages[item] = url
+                                            setUploadedImages(updateUploadedImages)
+                                        }}
+                                    />
+                                </div> 
+
+                     }
+                     
                     </ImageListItem>
                 ))}
             </ImageList>

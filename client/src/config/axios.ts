@@ -16,7 +16,7 @@ instance.interceptors.request.use(async function (config) {
     const user:any = await getCurrentUser()
     if (user) {
         const token = await user.getIdToken();
-        console.log("token : ", token);
+        // console.log("token : ", token);
         // @ts-ignore
         config.headers.Authorization = token;
     } else {

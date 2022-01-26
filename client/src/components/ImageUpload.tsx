@@ -21,6 +21,8 @@ const ImageUpload : React.FC<ImageUploadProps> = ({selectedFile, setSelectedFile
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState<any>(null)
     const [success, setSuccess] = useState<any>(false)
+    const [imageUrl, setImageUrl] = useState("")
+    const [uploaded, setUploaded] = useState(false)
 
     const ImageUploader = async () => {
         try{
@@ -32,11 +34,12 @@ const ImageUpload : React.FC<ImageUploadProps> = ({selectedFile, setSelectedFile
                 url:"/image",
                 data:{
                     file,
-                    test: "hey"
                 }
             })
             console.log(imgUploadResponse)
             setUploadedImage(imgUploadResponse.data.img_url)
+            setImageUrl(imgUploadResponse.data.img_url)
+            setUploaded(true)
             setError(null)
             setSuccess(true)
         }catch(e){
@@ -46,21 +49,50 @@ const ImageUpload : React.FC<ImageUploadProps> = ({selectedFile, setSelectedFile
         }finally{
             setLoading(false)
         }
-     
     };
+    const discardImage = async () => {
+        try{
+            if(uploaded && imageUrl){
+                // delete request
+                const imgDeleteResponse = await axios({
+                    method:"DELETE",
+                    url:"/image",
+                    data:{
+                        url : imageUrl,
+                    }
+                })
+                console.log(imgDeleteResponse)
+            }
+        }catch(e){
+            console.log(e)
+        }finally{
+            setUploaded(false)
+            setImageUrl("")
+            setUploadedImage("")
+            setSuccess(false)
+        }
+        
+    }
 return (
     <Box>
             <input
             type="file"
+            accept="image/*"
             // @ts-ignore
             onChange={(e:any) => {
                 setSelectedFile(e.target.files[0]);
                 console.log(e.target.files[0]);
             }}
             />
-            <Button disabled={loading} onClick={ImageUploader} >
-                upload Image
-            </Button>
+            {
+                uploaded ? 
+                <Button onClick={discardImage} >
+                    Discard
+                 </Button> :
+                <Button disabled={loading} onClick={ImageUploader} >
+                    upload Image
+                 </Button>
+            }
             {
                 error && 
                 <Typography color={"red"}>{error}</Typography>

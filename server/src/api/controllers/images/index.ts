@@ -14,6 +14,17 @@ const imgUpload = async (req:Request, res:Response) => {
   }
 };
 
+const imgDeleteController = async (req:Request, res:Response) => {
+  try {
+    const {url} = req.body
+    await deleteImg(url)
+    res.status(200).json({status : "200" , log:"img deleted from cloudinary"});
+  } catch (e:any) {
+    console.log(e.message);
+    res.status(400).json({status : "400" , log: "error in deleting the image from cloudinary"});
+  }
+};
+
 const deleteImg = async (url : string) => {
   if(!url) return
   const arr = url.split('/').slice(-2)
@@ -26,5 +37,6 @@ const deleteImg = async (url : string) => {
 
 export {
     imgUpload,
-    deleteImg
+    deleteImg,
+    imgDeleteController
 }

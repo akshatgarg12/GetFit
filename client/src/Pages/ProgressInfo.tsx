@@ -15,6 +15,7 @@ import Paper from '@mui/material/Paper';
 import { useNavigate, useParams } from "react-router-dom";
 import {useState, useEffect} from 'react'
 import axios from "../config/axios";
+import BasicImageModal from "../components/ImageModal";
 
 interface ProgressInfoPageProps {
     
@@ -25,6 +26,15 @@ const ProgressInfoPage: React.FC<ProgressInfoPageProps> = () => {
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState<any>(null)
     const [progress, setProgress] = useState<any>(null)
+
+    // modal related state and fns
+    const [openModal, setOpenModal] = useState(false);
+    const [modalImage, setModalImage] = useState("");
+    const handleOpenModal = (imgSrc : string) => {
+        setOpenModal(true);
+        setModalImage(imgSrc)
+    }
+    const handleCloseModal = () => setOpenModal(false);
 
     // show a btn to edit or delete the exercise
     const navigate = useNavigate()
@@ -116,9 +126,16 @@ const ProgressInfoPage: React.FC<ProgressInfoPageProps> = () => {
                             src={item ? item : ""}
                             alt='img not avialable'
                             loading="lazy"
+                            style={{ width: "100%", height:"40vh", objectFit:"contain" }}
+                            onClick = {() => handleOpenModal(item)}
                         />
                         </ImageListItem>
                     ))}
+                    <BasicImageModal 
+                        imgSrc={modalImage}
+                        handleClose={handleCloseModal}
+                        open={openModal} 
+                    />
                 </ImageList>
                 <Typography variant="h6" gutterBottom component="div">
                     Weight : {measurements.weight}

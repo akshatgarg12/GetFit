@@ -39,8 +39,8 @@ const Navbar = () => {
   };
   const handleLogout = () => {
     auth.signOut()
-}
-
+  }
+  const navigateLogin = () => navigate('/login')
   const {isAuthenticated, user} = useAuth()
   const pages = ['Workouts', 'Exercises', 'Progress'];
   const settings = ['Profile', 'Logout'];
@@ -132,47 +132,50 @@ const Navbar = () => {
           }
           </Box>
 
-         {isAuthenticated &&  <Box sx={{ flexGrow: 0 }}>
-            <Tooltip title="Open settings">
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                {
-                  user &&
-                  <Avatar alt={user.displayName} src={user.photoURL} />
-                }
-              </IconButton>
-            </Tooltip>
-            <Menu
-              sx={{ mt: '45px' }}
-              id="menu-appbar"
-              anchorEl={anchorElUser}
-              anchorOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-              open={Boolean(anchorElUser)}
-              onClose={handleCloseUserMenu}
-            >
-              {settings.map((setting) => {
-                if(setting === "Logout"){
+         {isAuthenticated ?  
+          <Box sx={{ flexGrow: 0 }}>
+              <Tooltip title="Open settings">
+                <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                  {
+                    user &&
+                    <Avatar alt={user.displayName} src={user.photoURL} />
+                  }
+                </IconButton>
+              </Tooltip>
+              <Menu
+                sx={{ mt: '45px' }}
+                id="menu-appbar"
+                anchorEl={anchorElUser}
+                anchorOrigin={{
+                  vertical: 'top',
+                  horizontal: 'right',
+                }}
+                keepMounted
+                transformOrigin={{
+                  vertical: 'top',
+                  horizontal: 'right',
+                }}
+                open={Boolean(anchorElUser)}
+                onClose={handleCloseUserMenu}
+              >
+                {settings.map((setting) => {
+                  if(setting === "Logout"){
+                    return (
+                      <MenuItem key={setting} onClick={handleLogout}>
+                        <Typography textAlign="center">{setting}</Typography>
+                    </MenuItem>
+                    )
+                  }
                   return (
-                    <MenuItem key={setting} onClick={handleLogout}>
+                    <MenuItem key={setting} onClick={() => handleCloseNavMenu(setting)}>
                       <Typography textAlign="center">{setting}</Typography>
-                   </MenuItem>
+                  </MenuItem>
                   )
-                }
-                return (
-                  <MenuItem key={setting} onClick={() => handleCloseNavMenu(setting)}>
-                    <Typography textAlign="center">{setting}</Typography>
-                 </MenuItem>
-                )
-              })}
-            </Menu>
-          </Box>}
+                })}
+              </Menu>
+            </Box> : 
+            <Button variant="outlined" onClick={navigateLogin}>Login</Button>
+          }
         </Toolbar>
       </Container>
     </AppBar>

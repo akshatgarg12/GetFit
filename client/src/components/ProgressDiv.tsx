@@ -28,6 +28,7 @@ const ProgressDiv: React.FC<ProgressDivProps> = ({front_img, back_img, side_img,
                         src={item ? item : ""}
                         alt='img not avialable'
                         loading="lazy"
+                        style={{ width: "100%", height:"33vh", objectFit:"cover" }}
                     />
                     </ImageListItem>
                 ))}

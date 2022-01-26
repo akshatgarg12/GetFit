@@ -127,7 +127,7 @@ const CreateProgress: React.FC<CreateProgressProps> = () => {
                         alt={"item"}
                         loading="lazy"
                         style={{width:"100%", height:"400px", objectFit:"contain"}}
-                        />
+                     />
                     <ImageUpload 
                         selectedFile={selectedImages[item]}
                         setSelectedFile={(file:any) => {

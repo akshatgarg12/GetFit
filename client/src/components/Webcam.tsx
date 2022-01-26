@@ -74,9 +74,8 @@ const WebcamCapture = ({setUploadedImage}:WebcamCaptureProps) => {
         
     }
     const videoConstraints = {
-        width: 720,
-        height: 1280,
-        facingMode
+        facingMode,
+        // aspectRatio:0.66
     };
     const capture = useCallback(
         () => {
@@ -109,16 +108,11 @@ const WebcamCapture = ({setUploadedImage}:WebcamCaptureProps) => {
                         <Box sx={{height:"450px",width:"300px", margin:"auto"}}>
                             <Webcam
                                 audio={false}
-                                height={"100%"}
-                                width={"100%"}
-                                style={{
-                                    maxHeight : "1280px",
-                                    maxWidth : "720px",
-                                    margin:"auto"
-                                }}
                                 ref={webcamRef}
                                 screenshotFormat="image/jpeg"
                                 mirrored={true}
+                                width={"100%"} 
+                                height={"100%"}
                                 videoConstraints={videoConstraints}
                             />
                         </Box>

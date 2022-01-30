@@ -23,7 +23,7 @@ const AuthContextProvider = ({children}:any) => {
     const [loading, setLoading] = useState(false)
     useEffect(() => {
         const callback = (user:any) => {
-            console.log(user)
+            // console.log(user)
             if (user) {
                 const {photoURL,displayName,email} = user
                 setAuth({

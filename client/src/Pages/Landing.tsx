@@ -17,7 +17,7 @@ const LandingPage: React.FC<LandingPageProps> = () => {
             <Box className="landing-page-hero">
                 <img style={{width:"100%", height:"75vh", objectFit:"cover"}} src={"/images/landing.png"} alt="hero-img"/>
                 <Box className="centered" sx={{width:"50%", height:"60%", maxWidth:"400px", maxHeight:"400px", display:"flex", flexDirection:"column", justifyContent:"center"}}>
-                    <img style={{maxWidth:"100%", maxHeight:"100%",objectFit:"contain", }} src={"/assets/logo.gif"} loading="lazy" alt="logo" />
+                    <img style={{maxWidth:"100%", maxHeight:"100%",objectFit:"contain", }} src={"/assets/logo.gif"} alt="logo" />
                     {/* <Typography variant="h1" component="div" gutterBottom mt={2} className="landing-page-heading">
                         {title}
                     </Typography>

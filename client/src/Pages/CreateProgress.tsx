@@ -1,10 +1,12 @@
-import {Container, ImageList, ImageListItem, Box,Button, TextField, Typography, Stack} from '@mui/material'
+import {Container, ImageList, ImageListItem, Box,Button, TextField, Typography, Stack, Popover, InputAdornment} from '@mui/material'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 import { useState } from 'react';
 import ImageUpload from '../components/ImageUpload';
 import axios from '../config/axios'
 import {useNavigate} from 'react-router-dom'
 import WebcamCapture from '../components/Webcam';
+
 
 interface CreateProgressProps {
     
@@ -81,6 +83,20 @@ const CreateProgress: React.FC<CreateProgressProps> = () => {
     const [success, setSuccess] = useState<any>(null)
     const navigate = useNavigate()
 
+    const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
+    const [anchorElText, setAnchorElText] = useState<string>("");
+
+    const handlePopoverOpen = (event: any, anchorText : string) => {
+        setAnchorEl(event.currentTarget);
+        setAnchorElText(anchorText)
+    };
+
+    const handlePopoverClose = () => {
+        setAnchorEl(null);
+    };
+
+    const open = Boolean(anchorEl);
+
     const onChangeHandler = (e:any) => {
         const {name, value} = e.target
         setMeasurements({
@@ -91,14 +107,18 @@ const CreateProgress: React.FC<CreateProgressProps> = () => {
     const submitHandler = async () => {
         try{
             setLoading(true)
-            // meausrement data should not be null
-            for(let part in measurements){
-                // @ts-ignore
-                if(measurements[part] === null || measurements[part] === 0){
-                    setError("Please fill all measurements")
-                    return
-                }
-            }
+            // all meausrement data should not be null
+            // let allMeasurementsAreNull = true
+            // for(let part in measurements){
+            //     // @ts-ignore
+            //     if(measurements[part] !== null && measurements[part] !== 0){
+            //         allMeasurementsAreNull = false
+            //     }
+            // }
+            // if(allMeasurementsAreNull){
+            //     setError("Please fill some measurements")
+            //     return
+            // }
             const req = await axios({
                 method : "POST",
                 url : "/progress",
@@ -195,7 +215,8 @@ const CreateProgress: React.FC<CreateProgressProps> = () => {
                     name="weight"
                     margin = "normal"
                     sx={{marginRight:"10px"}}
-                    value = {measurements.weight || 0}
+                    defaultValue={null}
+                    value = {measurements.weight}
                     onChange={onChangeHandler}
                     type='number'
                 />
@@ -205,7 +226,7 @@ const CreateProgress: React.FC<CreateProgressProps> = () => {
                     name="height"
                     margin = "normal"
                     sx={{marginRight:"10px"}}
-                    value = {measurements.height || 0}
+                    value = {measurements.height}
                     onChange={onChangeHandler}
                     type='number'
                 />
@@ -216,18 +237,50 @@ const CreateProgress: React.FC<CreateProgressProps> = () => {
                 {
                     measurementParts.map((part) => {
                         return (
-                            <TextField
-                                key = {part.title}
-                                id={part.title}
-                                label={part.title}
-                                name={part.title}
-                                margin = "normal"
-                                sx={{marginRight:"10px"}}
-                                // @ts-ignore
-                                value = {measurements[part.title] || 0}
-                                onChange={onChangeHandler}
-                                type='number'
-                            />
+                            <>
+                                <TextField
+                                    key = {part.title}
+                                    id={part.title}
+                                    label={part.title}
+                                    name={part.title}
+                                    margin = "normal"
+                                    sx={{marginRight:"10px"}}
+                                    // @ts-ignore
+                                    value = {measurements[part.title]}
+                                    onChange={onChangeHandler}
+                                    type='number'
+                                    InputProps={{
+                                        endAdornment: (
+                                          <InputAdornment position="start">
+                                            <HelpOutlineIcon
+                                                  onMouseEnter={(e) => handlePopoverOpen(e, part.info)}
+                                                  onMouseLeave={handlePopoverClose}
+                                            />
+                                          </InputAdornment>
+                                        ),
+                                      }} 
+                                />
+                            <Popover
+                                id="mouse-over-popover"
+                                sx={{
+                                pointerEvents: 'none',
+                                }}
+                                open={open}
+                                anchorEl={anchorEl}
+                                anchorOrigin={{
+                                vertical: 'bottom',
+                                horizontal: 'left',
+                                }}
+                                transformOrigin={{
+                                    vertical: 'top',
+                                    horizontal: 'left',
+                                }}
+                                onClose={handlePopoverClose}
+                                disableRestoreFocus
+                            >
+                                <Typography sx={{ p: 1 }}>{anchorElText}</Typography>
+                            </Popover>
+                            </>
                         )
                     })
                 }

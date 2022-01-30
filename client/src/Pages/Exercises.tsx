@@ -67,7 +67,7 @@ const ExercisesPage: React.FC<ExercisesPageProps> = () => {
             <Container>
                 <Autocomplete
                     id="grouped-demo"
-                    options={Exercises.sort((a, b) => -b.name.localeCompare(a.name))}
+                    options={Exercises}
                     groupBy={(option) => option.bodyPart}
                     renderOption={(props, value) => (
                         <li {...props} key={uuid()}>

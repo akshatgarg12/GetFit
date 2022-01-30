@@ -291,7 +291,7 @@ const CreateWorkoutPage: React.FC<CreateWorkoutPageProps> = () => {
                                 <Box key={uuid()}>
                                 <Autocomplete
                                         id="grouped-demo"
-                                        options={exercisesToShow.sort((a:any, b:any) => -b.name.localeCompare(a.name))}
+                                        options={exercisesToShow}
                                         groupBy={(option) => option.bodyPart}
                                         renderOption={(props, value) => (
                                             <li {...props} key={uuid()}>

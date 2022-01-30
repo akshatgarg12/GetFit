@@ -1,13 +1,18 @@
-import * as React from 'react';
+/* eslint-disable react-hooks/exhaustive-deps */
+import {useState, useEffect} from 'react';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
+import Autocomplete from '@mui/material/Autocomplete';
 import ExerciseCard from '../components/ExerciseCard';
 import Exercises from '../assets/exercises.json'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import {Link, useParams, useNavigate} from 'react-router-dom'
 import {Typography } from '@mui/material';
+import {v4 as uuid} from 'uuid'
+
 interface ExercisesPageProps {
 }
  
@@ -15,6 +20,14 @@ const ExercisesPage: React.FC<ExercisesPageProps> = () => {
     // render those exercise from array based on category
     // add a btn to add new exercise
     // render only a few at a time.. like 4-5 of each bodypart and create a search option / view all for each category
+    const [searchedExercise, setSearchedExercise] = useState<any>(null)
+    // @ts-ignore
+    const defaultSearchedExercisesCollection = JSON.parse(sessionStorage.getItem("searchedExercisesCollection")) || []
+    const [searchedExercisesCollection, setSearchedExercisesCollection] = useState<Array<any>>(defaultSearchedExercisesCollection)
+    const clearSearchHistory = () => {
+        setSearchedExercisesCollection([])
+        sessionStorage.removeItem("searchedExercisesCollection")
+    }
     const {bodyPart : specificBodyPart} = useParams()
     const navigate = useNavigate()
     const bodyParts = new Set<string>()
@@ -35,6 +48,13 @@ const ExercisesPage: React.FC<ExercisesPageProps> = () => {
     const onClickGoBackHandler = () => {
         navigate(-1);
     }
+    useEffect(() =>{
+        if(searchedExercise){
+            setSearchedExercisesCollection([searchedExercise, ...searchedExercisesCollection])
+            sessionStorage.setItem("searchedExercisesCollection",  JSON.stringify([searchedExercise, ...searchedExercisesCollection]))
+        }
+    },[searchedExercise])
+
     return (
         <Container sx={{padding:"2rem 1rem"}}>
             {
@@ -43,10 +63,44 @@ const ExercisesPage: React.FC<ExercisesPageProps> = () => {
                  Go Back
                 </Button>
             }
-            <Box sx={{padding : "20px"}} mb="1.5">
-                Create a button to open a modal to add new exercise or navigate to new page
-                List all exercise created by user category wise
-            </Box>
+            
+            <Container>
+                <Autocomplete
+                    id="grouped-demo"
+                    options={Exercises.sort((a, b) => -b.name.localeCompare(a.name))}
+                    groupBy={(option) => option.bodyPart}
+                    renderOption={(props, value) => (
+                        <li {...props} key={uuid()}>
+                            {value.name}
+                        </li>
+                    )}
+                    getOptionLabel={(option) => option.name}
+                    sx={{ width: 300 }}
+                    renderInput={(params) => <TextField {...params} label="Search" />}
+                    value = {searchedExercise}
+                    onChange={(_, val) => setSearchedExercise(val)}
+                />
+                {
+                    searchedExercisesCollection.length ? 
+                    <Box sx={{display:"flex", flexDirection:"row", justifyContent:"space-between"}}>
+                        <Typography variant="h6" sx={{margin:"1rem 0"}}>Search Results</Typography> 
+                        <Button style={{margin:"auto 0"}} onClick={clearSearchHistory}>Clear Search</Button>
+                     </Box>
+                    : null
+                }
+                <Grid container rowSpacing={1} columnSpacing={{ xs: 2, sm: 3, md: 4 }}>
+                    {
+                        searchedExercisesCollection.map(({id, name, target}) => {
+                            return (
+                                <Grid key={uuid()} item xs={6} sm={4} md={3}>
+                                    <ExerciseCard id={id} name={name} target={target} />
+                                </Grid>
+                            )
+                        })
+                        
+                    }
+                </Grid>
+            </Container>
             {
                 // eslint-disable-next-line array-callback-return
                 bodyPartExercisesDS.map(({bodyPart, exercises}, id) => {

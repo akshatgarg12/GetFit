@@ -1,6 +1,6 @@
 // render a list of exercises and show them in cards
 // after selecting and clicking on next add no of sets and reps ranges
-import { Typography, Box, Button, Stack, TextField, Card, TableContainer, TableRow, Table,FormControl, InputLabel, OutlinedInput, TableHead, TableCell, TableBody, Paper, Chip } from '@mui/material';
+import { Typography, Box, Button, Stack, TextField, Card, TableContainer, TableRow, Table,FormControl, InputLabel, OutlinedInput, TableHead, TableCell, TableBody, Paper, Chip, Autocomplete } from '@mui/material';
 import Container from '@mui/material/Container'
 import Grid from '@mui/material/Grid'
 import { useEffect, useState } from 'react';
@@ -12,6 +12,7 @@ import Exercises from '../assets/exercises.json'
 import {useNavigate} from 'react-router-dom'
 import { DeleteOutlined } from '@mui/icons-material';
 import axios from '../config/axios'
+import {v4 as uuid} from 'uuid'
 
 interface CreateWorkoutPageProps {
     
@@ -67,6 +68,23 @@ const CreateWorkoutPage: React.FC<CreateWorkoutPageProps> = () => {
     const [workoutInfo, setWorkoutInfo] = useState<WorkoutInfo>(defaultWorkoutInfo ? JSON.parse(defaultWorkoutInfo) : {name : '' , body_parts_targeted:[], notes : ''})
     const [selectedExercises, setSelectedExercises] = useState<Array<Workout>>(defaultSelectedExercises ? JSON.parse(defaultSelectedExercises) : [])
     const [formNumber, setFormNumber] = useState(defaultFormNumber ? JSON.parse(defaultFormNumber) : 0)
+
+
+    const [searchedExercise, setSearchedExercise] = useState<any>(null)
+    // @ts-ignore
+    const defaultSearchedExercisesCollection = JSON.parse(sessionStorage.getItem("searchedExercisesCollection")) || []
+    const [searchedExercisesCollection, setSearchedExercisesCollection] = useState<Array<any>>(defaultSearchedExercisesCollection)
+    const clearSearchHistory = () => {
+        setSearchedExercisesCollection([])
+        sessionStorage.removeItem("searchedExercisesCollection")
+    }
+    useEffect(() =>{
+        if(searchedExercise){
+            setSearchedExercisesCollection([searchedExercise, ...searchedExercisesCollection])
+            sessionStorage.setItem("searchedExercisesCollection",  JSON.stringify([searchedExercise, ...searchedExercisesCollection]))
+        }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    },[searchedExercise])
 
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState<any>(null)
@@ -270,7 +288,53 @@ const CreateWorkoutPage: React.FC<CreateWorkoutPageProps> = () => {
                 formNumber === 1 &&
                         workoutInfo.body_parts_targeted.map((bp:string) => {
                             return (
-                                <Box>
+                                <Box key={uuid()}>
+                                <Autocomplete
+                                        id="grouped-demo"
+                                        options={exercisesToShow.sort((a:any, b:any) => -b.name.localeCompare(a.name))}
+                                        groupBy={(option) => option.bodyPart}
+                                        renderOption={(props, value) => (
+                                            <li {...props} key={uuid()}>
+                                                {value.name}
+                                            </li>
+                                        )}
+                                        getOptionLabel={(option) => option.name}
+                                        sx={{ width: 300 }}
+                                        renderInput={(params) => <TextField {...params} label="Search" />}
+                                        value = {searchedExercise}
+                                        onChange={(_, val) => setSearchedExercise(val)}
+                                    />
+                                    {
+                                        searchedExercisesCollection.length ? 
+                                        <Box sx={{display:"flex", flexDirection:"row", justifyContent:"space-between"}}>
+                                            <Typography variant="h6" sx={{margin:"1rem 0"}}>Search Results</Typography> 
+                                            <Button style={{margin:"auto 0"}} onClick={clearSearchHistory}>Clear Search</Button>
+                                        </Box>
+                                        : null
+                                    }
+                                    <Grid container rowSpacing={1} columnSpacing={{ xs: 2, sm: 3, md: 4 }}>
+                                        {
+                                            searchedExercisesCollection.map(({id, name, target}) => {
+                                                const selected = selectedExercises.filter((e) => e.id === id).length > 0;
+                                                let idx = -1;
+                                                if(selected){
+                                                    // find the index
+                                                    selectedExercises.forEach((w, i) => {
+                                                        if(w.id === id) idx = i+1;
+                                                    })
+                                                }
+                                                return (
+                                                    <Grid key={uuid()} item xs={6} sm={4} md={3}>
+                                                    <div style={{padding:"3px", border: selected ? "1px solid red" : "none"}} onClick={() => toggleSelection({id, name, target})}>
+                                                        {selected && <Typography color="text.secondary">{idx}</Typography>}
+                                                        <ExerciseCard id={id} name={name} target={target} />
+                                                        </div>
+                                                    </Grid>
+                                                    )
+                                            })
+                                            
+                                        }
+                                    </Grid>
                                     <Typography sx={{margin:"1rem 0"}} variant="h4">{bp}</Typography>
                                     <Grid container rowSpacing={1} columnSpacing={{ xs: 2, sm: 3, md: 4 }}>
                                         {

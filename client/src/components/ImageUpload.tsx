@@ -1,6 +1,7 @@
 import { Box, Button, Typography,} from '@mui/material';
 import axios from '../config/axios'
 import {useState} from 'react'
+import { resizeFile } from '../helpers/imageResizer';
 
 interface ImageUploadProps{
     selectedFile : any,
@@ -8,13 +9,13 @@ interface ImageUploadProps{
     setUploadedImage : (url : string) => void
 }
 
-const toBase64 = (file:any) =>
-  new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => resolve(reader.result);
-    reader.onerror = (error) => reject(error);
-  });
+// const toBase64 = (file:any) =>
+//   new Promise((resolve, reject) => {
+//     const reader = new FileReader();
+//     reader.readAsDataURL(file);
+//     reader.onload = () => resolve(reader.result);
+//     reader.onerror = (error) => reject(error);
+//   });
 
 // @ts-nocheck
 const ImageUpload : React.FC<ImageUploadProps> = ({selectedFile, setSelectedFile,setUploadedImage}) => {
@@ -28,7 +29,9 @@ const ImageUpload : React.FC<ImageUploadProps> = ({selectedFile, setSelectedFile
         try{
             setLoading(true)
             if (!selectedFile) return;
-            const file = await toBase64(selectedFile);
+            const file = await resizeFile(selectedFile)
+            console.log(file)
+            // const file = await toBase64(selectedFile);
             const imgUploadResponse = await axios({
                 method:"POST",
                 url:"/image",

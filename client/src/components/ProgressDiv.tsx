@@ -4,6 +4,7 @@ import ImageListItem from '@mui/material/ImageListItem';
 import Typography  from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import { Link } from 'react-router-dom';
+import { urlParser } from '../helpers/urlParser';
 
 interface ProgressDivProps {
     front_img : string | null,
@@ -25,7 +26,7 @@ const ProgressDiv: React.FC<ProgressDivProps> = ({front_img, back_img, side_img,
                 {[front_img, side_img, back_img].map((item, idx) => (
                     item && <ImageListItem key={idx}>
                     <img
-                        src={item ? item : ""}
+                        src={item ? urlParser(item) : ""}
                         alt='img not avialable'
                         loading="lazy"
                         style={{ width: "100%", height:"33vh", objectFit:"cover" }}

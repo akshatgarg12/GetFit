@@ -16,6 +16,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import {useState, useEffect} from 'react'
 import axios from "../config/axios";
 import BasicImageModal from "../components/ImageModal";
+import { urlParser } from "../helpers/urlParser";
 
 interface ProgressInfoPageProps {
     
@@ -123,7 +124,7 @@ const ProgressInfoPage: React.FC<ProgressInfoPageProps> = () => {
                     {[front_img, side_img, back_img].map((item, idx) => (
                         item && <ImageListItem key={idx}>
                         <img
-                            src={item ? item : ""}
+                            src={item ? urlParser(item) : ""}
                             alt='img not avialable'
                             loading="lazy"
                             style={{ width: "100%", height:"40vh", objectFit:"contain" }}

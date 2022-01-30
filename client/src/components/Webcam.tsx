@@ -2,6 +2,7 @@ import {useRef, useState, useCallback} from "react";
 import Webcam from "react-webcam";
 import { Box, Button, Stack, Typography } from "@mui/material";
 import axios from '../config/axios'
+import { resizeFile } from '../helpers/imageResizer';
 
 interface WebcamCaptureProps{
     setUploadedImage : (url : string) => void
@@ -21,11 +22,13 @@ const WebcamCapture = ({setUploadedImage}:WebcamCaptureProps) => {
         try{
             setLoading(true)
             if (!capturedImage) return;
+            const file = await resizeFile(capturedImage)
+
             const imgUploadResponse = await axios({
                 method:"POST",
                 url:"/image",
                 data:{
-                    file : capturedImage,
+                    file
                 }
             })
             console.log(imgUploadResponse)

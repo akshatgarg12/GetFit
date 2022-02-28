@@ -131,14 +131,14 @@ const WorkoutInfoPage: React.FC<WorkoutInfoPageProps> = () => {
                     </Typography>
                 </Stack>
                 <TableContainer component={Paper}>
-                    <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                    <Table sx={{ minWidth: 500 }} aria-label="simple table">
                         <TableHead>
                         <TableRow>
                             <TableCell>Exercises</TableCell>
                             <TableCell align="right">Sets</TableCell>
                             <TableCell align="right">Reps</TableCell>
-                            <TableCell align="right">Progressive Overload</TableCell>
                             <TableCell align="right">Tips</TableCell>
+                            <TableCell align="right">Progressive Overload</TableCell>
                         </TableRow>
                         </TableHead>
                         <TableBody>
@@ -152,8 +152,8 @@ const WorkoutInfoPage: React.FC<WorkoutInfoPageProps> = () => {
                             </TableCell>
                             <TableCell align="right">{row.sets}</TableCell>
                             <TableCell align="right">{row.reps}</TableCell>
-                            <TableCell align="right">{row.progressive_overload}</TableCell>
                             <TableCell align="right">{row.tips}</TableCell>
+                            <TableCell align="right">{row.progressive_overload}</TableCell>
                             </TableRow>
                         ))}
                         </TableBody>

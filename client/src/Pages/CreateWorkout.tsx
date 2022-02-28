@@ -289,21 +289,43 @@ const CreateWorkoutPage: React.FC<CreateWorkoutPageProps> = () => {
                         workoutInfo.body_parts_targeted.map((bp:string) => {
                             return (
                                 <Box key={uuid()}>
-                                <Autocomplete
-                                        id="grouped-demo"
-                                        options={exercisesToShow}
-                                        groupBy={(option) => option.bodyPart}
-                                        renderOption={(props, value) => (
-                                            <li {...props} key={uuid()}>
-                                                {value.name}
-                                            </li>
-                                        )}
-                                        getOptionLabel={(option) => option.name}
-                                        sx={{ width: 300 }}
-                                        renderInput={(params) => <TextField {...params} label="Search" />}
-                                        value = {searchedExercise}
-                                        onChange={(_, val) => setSearchedExercise(val)}
-                                    />
+                                    <Grid container spacing={2}>
+                                        <Grid item xs={12} md={6}>
+                                            <Autocomplete
+                                                id="grouped-demo"
+                                                options={Exercises}
+                                                groupBy={(option) => option.bodyPart}
+                                                renderOption={(props, value) => (
+                                                    <li {...props} key={uuid()}>
+                                                        {value.name}
+                                                    </li>
+                                                )}
+                                                getOptionLabel={(option) => option.name}
+                                                sx={{ width: 300 }}
+                                                renderInput={(params) => <TextField {...params} label="Search by exercise name" />}
+                                                value = {searchedExercise}
+                                                onChange={(_, val) => setSearchedExercise(val)}
+                                            />
+                                        </Grid>
+                                        <Grid item xs={12} md={6}>
+                                            <Autocomplete
+                                                id="grouped-demo"
+                                                options={Exercises}
+                                                groupBy={(option) => option.bodyPart}
+                                                renderOption={(props, value) => (
+                                                    <li {...props} key={uuid()}>
+                                                        {value.name}
+                                                    </li>
+                                                )}
+                                                getOptionLabel={(option) => option.target}
+                                                sx={{ width: 300 }}
+                                                renderInput={(params) => <TextField {...params} label="Search by Muscle targeted" />}
+                                                value = {searchedExercise}
+                                                onChange={(_, val) => setSearchedExercise(val)}
+                                            />
+                                        </Grid>
+                                    </Grid>
+                               
                                     {
                                         searchedExercisesCollection.length ? 
                                         <Box sx={{display:"flex", flexDirection:"row", justifyContent:"space-between"}}>
